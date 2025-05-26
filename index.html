@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kavaro AI - The Future of Risk Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="scrollToSection('hero')">Kavaro AI</div>
+            
+            <ul class="nav-links">
+                <li><a onclick="scrollToSection('problem')">Problem</a></li>
+                <li><a onclick="scrollToSection('solution')">Solution</a></li>
+                <li><a onclick="scrollToSection('cta')">Get Started</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="btn btn-secondary" onclick="scrollToSection('cta')">
+                    Get Started
+                </button>
+                
+                <button class="btn btn-launch" onclick="openModal()">
+                    Launch App ⚡
+                </button>
+                
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <div class="theme-icons">
+                        <span>🌙</span>
+                        <span>☀️</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Now Available • AI-Powered Risk Intelligence</div>
+            <h1>The Future of<br/>Risk Management</h1>
+            <p>Transform insurance document chaos into intelligent workflows. Kavaro AI connects every stakeholder with secure, instant document intelligence.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary btn-large" onclick="openModal()">
+                    Start Free Trial
+                </button>
+                <button class="btn btn-secondary btn-large" onclick="scrollToSection('solution')">
+                    Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section">
+        <div class="container">
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>40+</h3>
+                        <p>Hours saved per month</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>80%</h3>
+                        <p>Faster document processing</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>99.9%</h3>
+                        <p>Data accuracy guarantee</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>24/7</h3>
+                        <p>Intelligent monitoring</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">The Challenge</div>
+                <h2>Insurance is Drowning in Documents</h2>
+                <p>Billions of dollars at risk because critical information is trapped in PDFs, scattered across emails, and buried in filing cabinets.</p>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="card problem-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Stakeholder Chaos</h3>
+                    <p>Brokers, underwriters, clients, and vendors work in complete isolation with zero visibility into each other's processes.</p>
+                </div>
+                
+                <div class="card problem-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Document Black Holes</h3>
+                    <p>Critical COIs, policies, and certificates disappear into email chains and file systems, impossible to find when needed.</p>
+                </div>
+                
+                <div class="card problem-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Compliance Nightmares</h3>
+                    <p>Manual tracking of expirations, coverage gaps, and regulatory changes creates massive liability exposure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">The Solution</div>
+                <h2>AI That Actually Works</h2>
+                <p>One platform that connects every stakeholder with intelligent document processing, automated compliance, and real-time risk analytics.</p>
+            </div>
+            
+            <div class="grid grid-4">
+                <div class="card solution-card">
+                    <div class="card-icon">🧠</div>
+                    <h3>AI Document Intelligence</h3>
+                    <p>Upload any document. Get instant extraction, validation, and insights. Works with PDFs, images, and scanned documents.</p>
+                </div>
+                
+                <div class="card solution-card">
+                    <div class="card-icon">🔗</div>
+                    <h3>Unified Platform</h3>
+                    <p>Connect brokers, underwriters, clients, and vendors in one secure ecosystem with real-time collaboration.</p>
+                </div>
+                
+                <div class="card solution-card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Smart Compliance</h3>
+                    <p>Automated monitoring of expirations, coverage gaps, and regulatory requirements with proactive alerts.</p>
+                </div>
+                
+                <div class="card solution-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Risk Analytics</h3>
+                    <p>Advanced dashboards and predictive insights that turn your documents into strategic intelligence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="section">
+        <div class="container">
+            <div class="cta-section">
+                <h2>Ready to Transform Risk Management?</h2>
+                <p>Join forward-thinking insurance professionals who are already saving 40+ hours per month with intelligent document workflows.</p>
+                
+                <form class="cta-form" onsubmit="handleEmailSubmit(event)">
+                    <input 
+                        type="email" 
+                        class="cta-input" 
+                        placeholder="Enter your business email"
+                        required
+                        id="email-input"
+                    />
+                    <button type="submit" class="cta-submit">Start Free Trial</button>
+                </form>
+                
+                <div style="margin-top: 1.5rem; font-size: 14px; opacity: 0.8;">
+                    ✓ No credit card required &nbsp;&nbsp; ✓ 14-day free trial &nbsp;&nbsp; ✓ Setup in 5 minutes
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Kavaro AI. All rights reserved. Built with security and intelligence at the core.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <h2 id="modalTitle">Welcome Back</h2>
+            <p id="modalSubtitle">Sign in to your Kavaro AI dashboard</p>
+            
+            <form id="loginForm">
+                <div class="form-group" id="nameGroup" style="display: none;">
+                    <label>Full Name</label>
+                    <input type="text" id="nameInput" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="emailInput" required placeholder="john@company.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="passwordInput" required placeholder="••••••••">
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn-modal btn-close" onclick="closeModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-modal btn-primary" id="submitBtn">
+                        Sign In
+                    </button>
+                </div>
+            </form>
+            
+            <div class="modal-switch">
+                <button type="button" onclick="toggleLoginMode()" id="switchBtn">
+                    Don't have an account? Sign up
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
