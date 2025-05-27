@@ -689,3 +689,42 @@ body.light-theme .insight-item:hover {
         text-align: center;
     }
 }
+
+/* Demo CTA Card */
+.demo-cta-card {
+    background: linear-gradient(135deg, #007AFF, #30D158);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-top: 3rem;
+    color: white;
+}
+
+.demo-cta-content h3 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.demo-cta-content p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.demo-cta-card .btn {
+    background: white;
+    color: #007AFF;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.demo-cta-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
