@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kavaro AI - Interactive Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Navigation matching your landing page -->
+    <nav class="demo-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Kavaro AI</a>
+            
+            <ul class="nav-links">
+                <li><a href="../index.html#problem">Problem</a></li>
+                <li><a href="../index.html#solution">Solution</a></li>
+                <li><a href="index.html">Demo</a></li>
+            </ul>
+            
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <div class="theme-icons">
+                    <span>🌙</span>
+                    <span>☀️</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <div class="demo-badge">🚀 Interactive Demo • Live AI Processing</div>
+            <h1 class="demo-title">Experience Kavaro AI</h1>
+            <p class="demo-subtitle">
+                Upload your Certificate of Insurance documents and watch our AI instantly extract, analyze, and make your data searchable. See firsthand how we transform document chaos into intelligent workflows.
+            </p>
+        </div>
+
+        <div class="demo-grid">
+            <!-- Upload Section -->
+            <div class="card">
+                <h2 class="section-title">
+                    <i data-lucide="upload" style="width: 24px; height: 24px;"></i>
+                    Upload Documents
+                </h2>
+                
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">
+                        <i data-lucide="file-plus" style="width: 64px; height: 64px;"></i>
+                    </div>
+                    <div class="upload-text">Drop your COI documents here</div>
+                    <div class="upload-subtext">or click to browse • PDF, JPG, PNG supported</div>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                
+                <button class="sample-docs-btn" id="loadSampleDocs">
+                    📄 Load Sample COI Documents
+                </button>
+
+                <div class="document-list" id="documentList">
+                    <!-- Documents will be populated here -->
+                </div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="card">
+                <h2 class="section-title">
+                    <i data-lucide="brain" style="width: 24px; height: 24px;"></i>
+                    AI-Powered Search
+                </h2>
+                
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput"
+                        placeholder="Ask anything about your insurance documents..."
+                    >
+                </div>
+
+                <div class="search-suggestions">
+                    <div style="margin-bottom: 0.5rem; font-weight: 600; opacity: 0.8;">Try these searches:</div>
+                    <div class="suggestion-chips">
+                        <div class="suggestion-chip" data-search="general liability coverage limits">General liability limits</div>
+                        <div class="suggestion-chip" data-search="certificates expiring within 30 days">Expiring certificates</div>
+                        <div class="suggestion-chip" data-search="workers compensation coverage">Workers comp coverage</div>
+                        <div class="suggestion-chip" data-search="additional insured parties">Additional insureds</div>
+                        <div class="suggestion-chip" data-search="umbrella policy limits">Umbrella policies</div>
+                        <div class="suggestion-chip" data-search="coverage gaps or exclusions">Coverage gaps</div>
+                    </div>
+                </div>
+
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <div>AI is analyzing your documents...</div>
+                </div>
+
+                <div class="search-results" id="searchResults">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i data-lucide="search" style="width: 64px; height: 64px;"></i>
+                        </div>
+                        <div>Upload documents and start searching to see AI-powered insights</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-insights card" id="aiInsights" style="display: none;">
+            <h3 class="insights-title">
+                <i data-lucide="zap" style="width: 24px; height: 24px;"></i>
+                AI Risk Insights
+            </h3>
+            <div id="insightsList">
+                <!-- Insights will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
