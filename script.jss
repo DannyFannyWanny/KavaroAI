@@ -45,9 +45,42 @@ function toggleLoginMode() {
 }
 
 // Form handlers
-function handleEmailSubmit(event) {
-   event.preventDefault();
-   openModal();
+async function handleEmailSubmit(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email-input').value;
+    const submitBtn = document.getElementById('submit-btn');
+    
+    // Show loading state
+    submitBtn.textContent = 'Submitting...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch('https://sheetdb.io/api/v1/ucgaugwtjn4xz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Email: email,
+                Timestamp: new Date().toISOString(),
+                Source: 'Landing Page'
+            })
+        });
+        
+        if (response.ok) {
+            alert('✅ Thank you! We\'ll be in touch soon with early access details.');
+            document.getElementById('email-input').value = '';
+        } else {
+            throw new Error('Failed to submit');
+        }
+    } catch (error) {
+        alert('❌ Something went wrong. Please try again or email us directly at contact@kavaroai.com');
+    }
+    
+    // Reset button
+    submitBtn.textContent = 'Start Free Trial';
+    submitBtn.disabled = false;
 }
 
 // Initialize theme on page load
