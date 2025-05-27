@@ -16,12 +16,13 @@
             <ul class="nav-links">
                 <li><a onclick="scrollToSection('challenge')">Problem</a></li>
                 <li><a onclick="scrollToSection('solution')">Solution</a></li>
+                <li><a href="demo/index.html">Demo</a></li>
                 <li><a onclick="scrollToSection('cta')">Get Started</a></li>
             </ul>
             
             <div class="nav-actions">
-                <button class="btn btn-secondary" onclick="scrollToSection('cta')">
-                    Get Started
+                <button class="btn btn-secondary" onclick="window.location.href='demo/index.html'">
+                    Try Demo
                 </button>
                 
                 <button class="btn btn-launch" onclick="openModal()">
@@ -45,17 +46,15 @@
             <h1>The Future of<br/>Risk Management</h1>
             <p>Transform insurance document chaos into intelligent workflows. Kavaro AI connects every stakeholder with secure, instant document intelligence.</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary btn-large" onclick="openModal()">
-                    Start Free Trial
+                <button class="btn btn-primary btn-large" onclick="window.location.href='demo/index.html'">
+                    Try Interactive Demo
                 </button>
-                <button class="btn btn-secondary btn-large" onclick="scrollToSection('solution')">
-                    Try Demo
+                <button class="btn btn-secondary btn-large" onclick="openModal()">
+                    Start Free Trial
                 </button>
             </div>
         </div>
     </section>
-
-  
 
     <!-- Problem Section -->
     <section id="challenge" class="section challenge-section">
@@ -122,9 +121,21 @@
                     <p>Advanced dashboards and predictive insights that turn your documents into strategic intelligence.</p>
                 </div>
             </div>
+
+            <!-- New Demo CTA in Solution Section -->
+            <div class="demo-cta-card">
+                <div class="demo-cta-content">
+                    <h3>See It In Action</h3>
+                    <p>Experience our AI document intelligence with real COI processing. Upload documents, search with natural language, and see instant insights.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='demo/index.html'">
+                        🚀 Try Interactive Demo
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
-  <!-- Stats Section -->
+
+    <!-- Stats Section -->
     <section class="section">
         <div class="container">
             <div class="stats-section">
@@ -149,6 +160,7 @@
             </div>
         </div>
     </section>
+
     <!-- CTA Section -->
     <section id="cta" class="section">
         <div class="container">
@@ -169,6 +181,14 @@
                 
                 <div style="margin-top: 1.5rem; font-size: 14px; opacity: 0.8;">
                     ✓ No credit card required &nbsp;&nbsp; ✓ 14-day free trial &nbsp;&nbsp; ✓ Setup in 5 minutes
+                </div>
+                
+                <!-- Alternative CTA -->
+                <div style="margin-top: 2rem; text-align: center;">
+                    <p style="opacity: 0.8; margin-bottom: 1rem;">Want to see it first?</p>
+                    <button class="btn btn-secondary" onclick="window.location.href='demo/index.html'">
+                        Try the Interactive Demo
+                    </button>
                 </div>
             </div>
         </div>
@@ -221,6 +241,6 @@
         </div>
     </div>
 
-    <script src="script.jss"></script>
+    <script src="script.js"></script>
 </body>
 </html>
