@@ -45,7 +45,7 @@ function toggleLoginMode() {
 }
 
 // Form handlers
-async function handleEmailSubmit(event) {
+function handleEmailSubmit(event) {
     event.preventDefault();
     
     const email = document.getElementById('email-input').value;
@@ -56,33 +56,34 @@ async function handleEmailSubmit(event) {
     submitBtn.textContent = 'Submitting...';
     submitBtn.disabled = true;
     
-    try {
-        const response = await fetch('https://sheetdb.io/api/v1/ucgaugwtjn4xz', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Email: email,
-                Timestamp: new Date().toLocaleString(),
-                Source: 'Kavaro Landing Page'
-            })
-        });
-        
-        if (response.ok) {
-            alert('✅ Thank you! We\'ll be in touch soon.');
-            document.getElementById('email-input').value = '';
-        } else {
-            throw new Error('Network response was not ok');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('❌ Something went wrong. Please try again.');
-    }
+    // Use XMLHttpRequest instead of fetch
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://sheetdb.io/api/v1/ucgaugwtjn4xz', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
     
-    // Reset button
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200 || xhr.status === 201) {
+                alert('✅ Thank you! We\'ll be in touch soon.');
+                document.getElementById('email-input').value = '';
+            } else {
+                console.error('Error:', xhr.status, xhr.responseText);
+                alert('❌ Something went wrong. Please try again.');
+            }
+            
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    };
+    
+    const data = JSON.stringify({
+        Email: email,
+        Timestamp: new Date().toLocaleString(),
+        Source: 'Kavaro Landing Page'
+    });
+    
+    xhr.send(data);
 }
 // Initialize theme on page load
 function initTheme() {
