@@ -21,12 +21,13 @@
         <div class="nav-container">
             <div class="logo" onclick="scrollToSection('hero')">Kavaro AI</div>
             
-            <ul class="nav-links">
-                <li><a onclick="scrollToSection('challenge')">The Problem</a></li>
-                <li><a onclick="scrollToSection('solution')">The Solution</a></li>
-                <!--li><a href="demo/index.html">Demo</a></li-->
-                <li><a onclick="scrollToSection('cta')">Contact Us</a></li>
-            </ul>
+           <ul class="nav-links">
+    <li><a onclick="scrollToSection('challenge')">The Problem</a></li>
+    <li><a onclick="scrollToSection('solution')">The Solution</a></li>
+    <li><a onclick="scrollToSection('ecosystem')">The Ecosystem</a></li>
+    <!--li><a href="demo/index.html">Demo</a></li-->
+    <li><a onclick="scrollToSection('cta')">Contact Us</a></li>
+</ul>
             
             <div class="nav-actions">
                 <button class="btn btn-secondary" onclick="window.location.href='demo/index.html'">
@@ -142,8 +143,7 @@
             </div>
         </div-->
     </section>
-
-    <!-- Stats Section -->
+        <!-- Stats Section -->
     <section class="section">
         <div class="container">
             <div class="stats-section">
@@ -168,6 +168,137 @@
             </div>
         </div>
     </section>
+
+<!-- Stakeholder Flow Section -->
+<section id="ecosystem" class="stakeholder-flow-section">
+    <div class="stakeholder-container">
+        <div class="stakeholder-header">
+            <div class="section-badge">The Complete Ecosystem</div>
+            <h2>Every RMIS Stakeholder Connected</h2>
+            <p>Kavaro AI sits at the center, intelligently linking every document, every stakeholder, and every risk obligation across the full insurance lifecycle.</p>
+        </div>
+
+        <div class="flow-diagram">
+            <!-- Underwriters -->
+            <div class="stakeholder-node" data-stakeholder="underwriters">
+                <div class="node-icon underwriter">📊</div>
+                <div class="node-title">Underwriters</div>
+                <div class="node-subtitle">Risk evaluation & pricing</div>
+                <div class="node-details">
+                    <strong>Key Documents:</strong>
+                    Exposure schedules, applications, loss runs, COIs, risk narratives, claims history
+                    <br><br>
+                    <strong>Lifecycle:</strong>
+                    Submission review → Risk analysis → Policy pricing & binding
+                </div>
+            </div>
+
+            <!-- Kavaro AI Hub (Center) -->
+            <div class="stakeholder-node kavaro-hub">
+                <div class="hub-icon">🧠</div>
+                <div class="hub-title">Kavaro AI</div>
+                <div class="hub-subtitle">The Risk Management Bridge</div>
+                <div class="hub-features">
+                    • AI Document Intelligence<br>
+                    • Secure Storage & Audit Trail<br>
+                    • Real-time Collaboration<br>
+                    • Automated Compliance<br>
+                    • Predictive Risk Analytics
+                </div>
+            </div>
+
+            <!-- Insurance Brokers -->
+            <div class="stakeholder-node" data-stakeholder="brokers">
+                <div class="node-icon broker">🤝</div>
+                <div class="node-title">Insurance Brokers</div>
+                <div class="node-subtitle">Submissions & client support</div>
+                <div class="node-details">
+                    <strong>Key Documents:</strong>
+                    Client intake forms, COIs, policy binders, endorsements, renewal packets
+                    <br><br>
+                    <strong>Lifecycle:</strong>
+                    Client onboarding → Submission packaging → Renewals & retention
+                </div>
+            </div>
+
+            <!-- Clients/Insureds -->
+            <div class="stakeholder-node" data-stakeholder="clients">
+                <div class="node-icon client">🏢</div>
+                <div class="node-title">Clients / Insureds</div>
+                <div class="node-subtitle">Risk, Ops, HR, Legal teams</div>
+                <div class="node-details">
+                    <strong>Key Documents:</strong>
+                    Insurance policies, contracts, COIs, premium invoices, claims, safety reports
+                    <br><br>
+                    <strong>Lifecycle:</strong>
+                    Policy intake → Document management → Expiration tracking → Claims support
+                </div>
+            </div>
+
+            <!-- Vendors/Subcontractors -->
+            <div class="stakeholder-node" data-stakeholder="vendors">
+                <div class="node-icon vendor">👷</div>
+                <div class="node-title">Vendors / Subcontractors</div>
+                <div class="node-subtitle">Proving compliance to clients</div>
+                <div class="node-details">
+                    <strong>Key Documents:</strong>
+                    COIs, additional insured endorsements, contracts, safety plans, certifications
+                    <br><br>
+                    <strong>Lifecycle:</strong>
+                    Vendor onboarding → Document upload → Renewal submissions → Compliance tracking
+                </div>
+            </div>
+
+            <!-- Compliance/Legal/EHS -->
+            <div class="stakeholder-node" data-stakeholder="compliance">
+                <div class="node-icon compliance">⚖️</div>
+                <div class="node-title">Compliance / Legal / EHS</div>
+                <div class="node-subtitle">Risk accountability & defense</div>
+                <div class="node-details">
+                    <strong>Key Documents:</strong>
+                    Risk registers, incident reports, OSHA docs, contract language, audit logs
+                    <br><br>
+                    <strong>Lifecycle:</strong>
+                    Policy review → Risk mitigation → Audit prep → Legal response & claims analysis
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifecycle Phases -->
+        <div class="lifecycle-phases">
+            <h3 class="phases-title">Insurance Lifecycle Phases Covered by Kavaro AI</h3>
+            <div class="phases-grid">
+                <div class="phase-item">
+                    <div class="phase-name">Intake</div>
+                    <div class="phase-capability">Drag-and-drop uploads, AI parsing, automatic classification</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-name">Risk Analysis</div>
+                    <div class="phase-capability">Exposure summaries, document-level insights, coverage gap detection</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-name">Secure Storage</div>
+                    <div class="phase-capability">Blockchain audit trail, role-based access, version control</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-name">Renewal Management</div>
+                    <div class="phase-capability">Automated alerts, reminders, renewal packet generation</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-name">Compliance Tracking</div>
+                    <div class="phase-capability">COI monitoring, endorsement validation, regulatory compliance</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-name">Audit & Claims</div>
+                    <div class="phase-capability">Quick access to historical records, comprehensive audit logs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 
     <!-- CTA Section -->
     <section id="cta" class="section">

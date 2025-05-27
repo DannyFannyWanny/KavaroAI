@@ -114,7 +114,23 @@ function initTheme() {
         document.body.classList.remove('light-theme'); // Ensure dark mode is default
     }
 }
-
+// Stakeholder Flow Interactivity
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing code...
+    
+    // Add stakeholder node interactions
+    const stakeholderNodes = document.querySelectorAll('.stakeholder-node');
+    
+    stakeholderNodes.forEach(node => {
+        node.addEventListener('mouseenter', function() {
+            this.classList.add('active');
+        });
+        
+        node.addEventListener('mouseleave', function() {
+            this.classList.remove('active');
+        });
+    });
+});
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
    initTheme();
