@@ -580,6 +580,25 @@ body.light-theme .stats-section {
 body.light-theme .modal-overlay {
     background: rgba(255, 255, 255, 0.8);
 }
+.challenge-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.challenge-section .container {
+    width: 100%;
+}
+
+.challenge-section .section-header {
+    margin-bottom: 3rem;
+}
+
+.challenge-section .grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+}
 
 .modal {
     background: rgba(255, 255, 255, 0.05);
