@@ -1,4 +1,10 @@
+let isLoginMode = true;
 // Smooth scroll function
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+    localStorage.setItem('theme', theme);
+}
 function scrollToSection(elementId) {
    const element = document.getElementById(elementId);
    if (element) {
@@ -46,13 +52,15 @@ function handleEmailSubmit(event) {
 
 // Initialize theme on page load
 function initTheme() {
-   const savedTheme = localStorage.getItem('theme');
-   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-   const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-   
-   if (theme === 'light') {
-       document.body.classList.add('light-theme');
-   }
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    if (theme === 'light') {
+        document.body.classList.add('light-theme');
+    } else {
+        document.body.classList.remove('light-theme'); // Ensure dark mode is default
+    }
 }
 
 // Initialize everything when page loads
