@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.remove('light-theme');
 });
 
-// Claude API configuration
+// Claude API configuration - Updated for 2025
 const CLAUDE_API_KEY = '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';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 
@@ -44,13 +44,32 @@ const sampleDocuments = [
         content: "Certificate of Insurance for XYZ Plumbing Services. Coverage includes General Liability $1,000,000 per occurrence, Workers Compensation $500,000, Commercial Auto Liability $1,000,000, and Professional Liability $2,000,000. Building Owner Corp is named as additional insured on General Liability policy.",
         processed: true,
         processing: false
+    },
+    {
+        id: 3,
+        name: "Tech Solutions COI",
+        type: "Certificate of Insurance",
+        company: "Tech Solutions Inc",
+        issueDate: "2024-03-10",
+        expiry: "2024-12-31",
+        coverages: {
+            "General Liability": "$3,000,000",
+            "Professional Liability": "$5,000,000",
+            "Cyber Liability": "$2,000,000"
+        },
+        additionalInsured: ["Client Corp", "Vendor LLC"],
+        content: "Certificate of Insurance for Tech Solutions Inc. Professional services company with General Liability $3,000,000, Professional Liability $5,000,000, and Cyber Liability $2,000,000. Multiple additional insureds including Client Corp and Vendor LLC.",
+        processed: true,
+        processing: false
     }
 ];
 
 let uploadedDocuments = [];
 
 // Initialize Lucide icons
-lucide.createIcons();
+if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+}
 
 // Get DOM elements
 const uploadZone = document.getElementById('uploadZone');
@@ -63,26 +82,41 @@ const loadingState = document.getElementById('loadingState');
 const aiInsights = document.getElementById('aiInsights');
 
 // Event listeners
-uploadZone.addEventListener('click', () => fileInput.click());
-uploadZone.addEventListener('dragover', handleDragOver);
-uploadZone.addEventListener('dragleave', handleDragLeave);
-uploadZone.addEventListener('drop', handleDrop);
-fileInput.addEventListener('change', handleFileSelect);
-loadSampleBtn.addEventListener('click', loadSampleDocuments);
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleSearch();
-});
+if (uploadZone) {
+    uploadZone.addEventListener('click', () => fileInput?.click());
+    uploadZone.addEventListener('dragover', handleDragOver);
+    uploadZone.addEventListener('dragleave', handleDragLeave);
+    uploadZone.addEventListener('drop', handleDrop);
+}
 
-// Add click handlers for suggestion chips
-document.addEventListener('DOMContentLoaded', function() {
-    const suggestionChips = document.querySelectorAll('.suggestion-chip');
-    suggestionChips.forEach(chip => {
-        chip.addEventListener('click', function() {
-            const searchTerm = this.getAttribute('data-search');
-            searchInput.value = searchTerm;
-            handleSearch();
-        });
+if (fileInput) {
+    fileInput.addEventListener('change', handleFileSelect);
+}
+
+if (loadSampleBtn) {
+    loadSampleBtn.addEventListener('click', loadSampleDocuments);
+}
+
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSearch();
     });
+}
+
+// Add click handlers for suggestion chips after DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        const suggestionChips = document.querySelectorAll('.suggestion-chip');
+        suggestionChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                const searchTerm = this.getAttribute('data-search');
+                if (searchInput) {
+                    searchInput.value = searchTerm;
+                    handleSearch();
+                }
+            });
+        });
+    }, 100);
 });
 
 // Drag and drop handlers
@@ -114,7 +148,8 @@ async function processFiles(files) {
         const doc = {
             id: Date.now() + Math.random(),
             name: file.name,
-            type: file.type.includes('pdf') ? 'PDF Document' : 'Image Document',
+            type: file.type.includes('pdf') ? 'PDF Document' : 
+                  file.type.includes('image') ? 'Image Document' : 'Text Document',
             size: formatFileSize(file.size),
             uploadTime: new Date().toLocaleString(),
             processed: false,
@@ -176,9 +211,8 @@ function readFileContent(file) {
             if (file.type.includes('text')) {
                 resolve(e.target.result);
             } else {
-                // For PDFs and images, we'll use a simplified approach
-                // In production, you'd want proper OCR/PDF parsing
-                resolve(`Document: ${file.name}\nType: ${file.type}\nSize: ${file.size} bytes\n[Binary content - would need OCR/PDF parsing in production]`);
+                // For PDFs and images, we'll provide a description
+                resolve(`Document: ${file.name}\nType: ${file.type}\nSize: ${formatFileSize(file.size)}\n\nThis is a ${file.type.includes('pdf') ? 'PDF' : 'image'} file. In a production environment, this would be processed with OCR or PDF parsing to extract the actual text content. For this demo, please use the sample documents or upload text files to see the full AI processing capabilities.`);
             }
         };
         reader.onerror = reject;
@@ -191,18 +225,21 @@ function readFileContent(file) {
     });
 }
 
-// Claude API integration for document processing
+// Claude API integration for document processing - Updated for 2025
 async function processDocumentWithClaude(fileContent, fileName) {
     try {
+        console.log('Processing document with Claude API...');
+        
         const response = await fetch(CLAUDE_API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01'
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
             },
             body: JSON.stringify({
-                model: 'claude-3-sonnet-20240229',
+                model: 'claude-3-5-sonnet-20241022',
                 max_tokens: 2000,
                 messages: [{
                     role: 'user',
@@ -211,32 +248,40 @@ async function processDocumentWithClaude(fileContent, fileName) {
 Document Name: ${fileName}
 Content: ${fileContent}
 
-Please extract and provide:
+Please extract and provide the following information in a clear, structured format:
 1. Company/Insured name
 2. Policy type (COI, Policy, etc.)
 3. Issue date
 4. Expiry/effective dates
-5. Coverage types and limits
-6. Additional insured parties
+5. Coverage types and limits (list each coverage with its limit)
+6. Additional insured parties (if any)
 7. Brief summary of key points
 
-Format your response clearly with labeled sections.`
+Please format your response clearly with labeled sections for easy parsing.`
                 }]
             })
         });
 
         if (!response.ok) {
-            throw new Error(`API request failed: ${response.status}`);
+            const errorText = await response.text();
+            console.error('API Error:', response.status, errorText);
+            throw new Error(`API request failed: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
+        console.log('Claude API Response:', data);
+        
+        if (!data.content || !data.content[0]) {
+            throw new Error('Invalid response format from Claude API');
+        }
+        
         const analysisText = data.content[0].text;
         
         // Parse Claude's response
         return {
-            company: extractField(analysisText, 'company|insured'),
-            issueDate: extractField(analysisText, 'issue date|issued'),
-            expiry: extractField(analysisText, 'expiry|expiration|expires'),
+            company: extractField(analysisText, ['company', 'insured', 'organization']),
+            issueDate: extractField(analysisText, ['issue date', 'issued', 'effective date']),
+            expiry: extractField(analysisText, ['expiry', 'expiration', 'expires']),
             coverages: extractCoverages(analysisText),
             additionalInsured: extractAdditionalInsured(analysisText),
             summary: analysisText
@@ -248,30 +293,43 @@ Format your response clearly with labeled sections.`
     }
 }
 
-// Helper functions to extract specific fields
-function extractField(text, fieldPattern) {
-    const regex = new RegExp(`(?:${fieldPattern}):?\\s*([^\\n]+)`, 'i');
-    const match = text.match(regex);
-    return match ? match[1].trim() : 'Not specified';
+// Helper functions to extract specific fields - Improved
+function extractField(text, fieldPatterns) {
+    for (const pattern of fieldPatterns) {
+        const regex = new RegExp(`(?:${pattern}):?\\s*([^\\n]+)`, 'i');
+        const match = text.match(regex);
+        if (match && match[1].trim()) {
+            return match[1].trim();
+        }
+    }
+    return 'Not specified';
 }
 
 function extractCoverages(text) {
     const coverages = {};
+    const lines = text.split('\n');
+    
+    // Look for coverage patterns
     const coveragePatterns = [
-        'general liability',
-        'workers compensation',
-        'commercial auto',
-        'professional liability',
-        'umbrella',
-        'property'
+        /general liability[:\s]*[\$]?([\d,]+)/i,
+        /workers compensation[:\s]*[\$]?([\d,]+)/i,
+        /commercial auto[:\s]*[\$]?([\d,]+)/i,
+        /professional liability[:\s]*[\$]?([\d,]+)/i,
+        /umbrella[:\s]*[\$]?([\d,]+)/i,
+        /property[:\s]*[\$]?([\d,]+)/i,
+        /cyber[:\s]*[\$]?([\d,]+)/i
     ];
     
-    coveragePatterns.forEach(coverage => {
-        const regex = new RegExp(`${coverage}[^\\n]*\\$([\\d,]+)`, 'i');
-        const match = text.match(regex);
-        if (match) {
-            coverages[coverage.charAt(0).toUpperCase() + coverage.slice(1)] = `$${match[1]}`;
-        }
+    lines.forEach(line => {
+        coveragePatterns.forEach(pattern => {
+            const match = line.match(pattern);
+            if (match) {
+                const coverageType = pattern.source.split('[')[0].replace(/\\/g, '').replace(/\|/g, ' ');
+                const amount = match[1];
+                const formattedType = coverageType.charAt(0).toUpperCase() + coverageType.slice(1);
+                coverages[formattedType] = `$${amount}`;
+            }
+        });
     });
     
     return coverages;
@@ -286,7 +344,7 @@ function extractAdditionalInsured(text) {
     return [];
 }
 
-// Search functionality with Claude API
+// Search functionality with Claude API - Updated for 2025
 async function handleSearch() {
     const query = searchInput.value.trim();
     if (!query) {
@@ -301,20 +359,20 @@ async function handleSearch() {
                 <div class="empty-state-icon">
                     <i data-lucide="file-text" style="width: 64px; height: 64px;"></i>
                 </div>
-                <div>Please upload some documents first to search through them.</div>
+                <div>Please upload some documents first or load sample documents to search through them.</div>
             </div>
         `;
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
     }
 
     showLoadingState();
     
     try {
-        const searchResults = await searchDocumentsWithClaude(query, allDocuments);
+        const searchResult = await searchDocumentsWithClaude(query, allDocuments);
         
-        if (searchResults) {
-            displayClaudeSearchResults(searchResults, query);
+        if (searchResult) {
+            displayClaudeSearchResults(searchResult, query);
         } else {
             // Fallback to local search
             const results = performLocalSearch(query, allDocuments);
@@ -330,14 +388,18 @@ async function handleSearch() {
     hideLoadingState();
 }
 
-// Claude-powered search
+// Claude-powered search - Updated for 2025
 async function searchDocumentsWithClaude(query, documents) {
     try {
+        console.log('Searching documents with Claude API...');
+        
         const documentsText = documents.map(doc => 
             `Document: ${doc.name}
 Company: ${doc.company}
 Expiry: ${doc.expiry}
+Issue Date: ${doc.issueDate || 'N/A'}
 Coverages: ${JSON.stringify(doc.coverages || {})}
+Additional Insured: ${(doc.additionalInsured || []).join(', ')}
 Content: ${doc.content || 'No content available'}`
         ).join('\n\n---\n\n');
 
@@ -346,34 +408,39 @@ Content: ${doc.content || 'No content available'}`
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01'
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
             },
             body: JSON.stringify({
-                model: 'claude-3-sonnet-20240229',
+                model: 'claude-3-5-sonnet-20241022',
                 max_tokens: 1500,
                 messages: [{
                     role: 'user',
-                    content: `Search through these insurance documents and answer: "${query}"
+                    content: `You are an insurance document analysis expert. Search through these insurance documents and answer the following question: "${query}"
 
 Documents:
 ${documentsText}
 
 Please provide:
-1. Direct answer to the question
-2. Which specific documents contain relevant information
+1. A direct, clear answer to the question
+2. Which specific documents contain relevant information (mention document names)
 3. Key quotes or data points from those documents
-4. Any risk insights or recommendations
+4. Any risk insights or recommendations based on the information
 
-Be specific and cite document names when referencing information.`
+Be specific and cite the document names when referencing information. Format your response in a clear, professional manner suitable for insurance professionals.`
                 }]
             })
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Search API Error:', response.status, errorText);
             throw new Error(`Search API request failed: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('Claude Search Response:', data);
+        
         return {
             answer: data.content[0].text,
             documents: documents
@@ -386,12 +453,15 @@ Be specific and cite document names when referencing information.`
 }
 
 // Display Claude search results
-function displayClaudeSearchResults(searchResults, query) {
-    searchResults.innerHTML = `
+function displayClaudeSearchResults(searchResult, query) {
+    const resultsContainer = document.getElementById('searchResults');
+    if (!resultsContainer) return;
+    
+    resultsContainer.innerHTML = `
         <div class="result-item">
             <div class="result-title">🧠 AI Analysis Results</div>
             <div class="result-snippet">
-                ${searchResults.answer.replace(/\n/g, '<br>')}
+                ${searchResult.answer.replace(/\n/g, '<br>')}
             </div>
             <div class="result-metadata">
                 <div class="metadata-item">
@@ -410,7 +480,7 @@ function displayClaudeSearchResults(searchResults, query) {
         </div>
     `;
     
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // Fallback local search
@@ -465,7 +535,7 @@ function displaySearchResults(results, query) {
                 <div style="margin-top: 1rem; opacity: 0.7; font-size: 14px;">Try different keywords or load sample documents</div>
             </div>
         `;
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
     }
     
@@ -499,7 +569,7 @@ function displaySearchResults(results, query) {
     }).join('');
     
     searchResults.innerHTML = resultsHTML;
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // Load sample documents
@@ -522,6 +592,8 @@ function loadSampleDocuments() {
 
 // Render document list
 function renderDocumentList() {
+    if (!documentList) return;
+    
     if (uploadedDocuments.length === 0) {
         documentList.innerHTML = '';
         return;
@@ -547,11 +619,13 @@ function renderDocumentList() {
     `).join('');
     
     documentList.innerHTML = documentsHTML;
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // Update AI insights
 function updateAIInsights() {
+    if (!aiInsights) return;
+    
     const processedDocs = uploadedDocuments.filter(doc => doc.processed);
     
     if (processedDocs.length === 0) {
@@ -608,21 +682,26 @@ function updateAIInsights() {
         </div>
     `).join('');
     
-    document.getElementById('insightsList').innerHTML = insightsHTML;
+    const insightsList = document.getElementById('insightsList');
+    if (insightsList) {
+        insightsList.innerHTML = insightsHTML;
+    }
     aiInsights.style.display = 'block';
 }
 
 // Loading and empty state functions
 function showLoadingState() {
-    loadingState.classList.add('active');
-    searchResults.innerHTML = '';
+    if (loadingState) loadingState.classList.add('active');
+    if (searchResults) searchResults.innerHTML = '';
 }
 
 function hideLoadingState() {
-    loadingState.classList.remove('active');
+    if (loadingState) loadingState.classList.remove('active');
 }
 
 function showEmptyState() {
+    if (!searchResults) return;
+    
     searchResults.innerHTML = `
         <div class="empty-state">
             <div class="empty-state-icon">
@@ -631,7 +710,7 @@ function showEmptyState() {
             <div>Enter a search query to find information in your documents</div>
         </div>
     `;
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // Utility function
