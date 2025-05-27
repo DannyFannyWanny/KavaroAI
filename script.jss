@@ -49,9 +49,10 @@ async function handleEmailSubmit(event) {
     event.preventDefault();
     
     const email = document.getElementById('email-input').value;
-    const submitBtn = document.getElementById('submit-btn');
+    const submitBtn = document.querySelector('.cta-submit');
     
     // Show loading state
+    const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Submitting...';
     submitBtn.disabled = true;
     
@@ -63,26 +64,26 @@ async function handleEmailSubmit(event) {
             },
             body: JSON.stringify({
                 Email: email,
-                Timestamp: new Date().toISOString(),
-                Source: 'Landing Page'
+                Timestamp: new Date().toLocaleString(),
+                Source: 'Kavaro Landing Page'
             })
         });
         
         if (response.ok) {
-            alert('✅ Thank you! We\'ll be in touch soon with early access details.');
+            alert('✅ Thank you! We\'ll be in touch soon.');
             document.getElementById('email-input').value = '';
         } else {
-            throw new Error('Failed to submit');
+            throw new Error('Network response was not ok');
         }
     } catch (error) {
-        alert('❌ Something went wrong. Please try again or email us directly at contact@kavaroai.com');
+        console.error('Error:', error);
+        alert('❌ Something went wrong. Please try again.');
     }
     
     // Reset button
-    submitBtn.textContent = 'Start Free Trial';
+    submitBtn.textContent = originalText;
     submitBtn.disabled = false;
 }
-
 // Initialize theme on page load
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
