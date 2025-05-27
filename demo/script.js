@@ -347,12 +347,17 @@ function extractAdditionalInsured(text) {
 // Search functionality with Claude API - Updated for 2025
 async function handleSearch() {
     const query = searchInput.value.trim();
+    console.log('Search initiated with query:', query);
+    
     if (!query) {
         showEmptyState();
         return;
     }
     
     const allDocuments = [...uploadedDocuments, ...sampleDocuments];
+    console.log('Total documents available:', allDocuments.length);
+    console.log('Documents:', allDocuments.map(d => ({ name: d.name, company: d.company })));
+    
     if (allDocuments.length === 0) {
         searchResults.innerHTML = `
             <div class="empty-state">
@@ -369,29 +374,36 @@ async function handleSearch() {
     showLoadingState();
     
     try {
+        console.log('Attempting Claude API search...');
         const searchResult = await searchDocumentsWithClaude(query, allDocuments);
         
         if (searchResult) {
+            console.log('Claude search successful, displaying results');
             displayClaudeSearchResults(searchResult, query);
         } else {
-            // Fallback to local search
+            console.log('Claude search failed, falling back to local search');
             const results = performLocalSearch(query, allDocuments);
+            console.log('Local search results:', results.length, 'matches found');
             displaySearchResults(results, query);
         }
     } catch (error) {
         console.error('Search error:', error);
         // Fallback to local search
         const results = performLocalSearch(query, allDocuments);
+        console.log('Fallback local search results:', results.length, 'matches found');
         displaySearchResults(results, query);
     }
     
     hideLoadingState();
 }
 
-// Claude-powered search - Updated for 2025
+// Enhanced Claude-powered search with better error handling
 async function searchDocumentsWithClaude(query, documents) {
     try {
-        console.log('Searching documents with Claude API...');
+        console.log('=== CLAUDE API SEARCH DEBUG ===');
+        console.log('API Key (first 10 chars):', CLAUDE_API_KEY.substring(0, 10) + '...');
+        console.log('Query:', query);
+        console.log('Documents count:', documents.length);
         
         const documentsText = documents.map(doc => 
             `Document: ${doc.name}
@@ -403,20 +415,15 @@ Additional Insured: ${(doc.additionalInsured || []).join(', ')}
 Content: ${doc.content || 'No content available'}`
         ).join('\n\n---\n\n');
 
-        const response = await fetch(CLAUDE_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: 'claude-3-5-sonnet-20241022',
-                max_tokens: 1500,
-                messages: [{
-                    role: 'user',
-                    content: `You are an insurance document analysis expert. Search through these insurance documents and answer the following question: "${query}"
+        console.log('Documents text length:', documentsText.length);
+        console.log('Sample document text:', documentsText.substring(0, 300) + '...');
+
+        const requestPayload = {
+            model: 'claude-3-5-sonnet-20241022',
+            max_tokens: 1500,
+            messages: [{
+                role: 'user',
+                content: `You are an insurance document analysis expert. Search through these insurance documents and answer the following question: "${query}"
 
 Documents:
 ${documentsText}
@@ -428,18 +435,48 @@ Please provide:
 4. Any risk insights or recommendations based on the information
 
 Be specific and cite the document names when referencing information. Format your response in a clear, professional manner suitable for insurance professionals.`
-                }]
-            })
+            }]
+        };
+
+        console.log('Request payload model:', requestPayload.model);
+        console.log('Request payload message length:', requestPayload.messages[0].content.length);
+
+        const response = await fetch(CLAUDE_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': CLAUDE_API_KEY,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify(requestPayload)
         });
+
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Search API Error:', response.status, errorText);
-            throw new Error(`Search API request failed: ${response.status}`);
+            console.error('API Error Response:', errorText);
+            
+            // Try to parse error JSON
+            try {
+                const errorJson = JSON.parse(errorText);
+                console.error('Parsed error:', errorJson);
+            } catch (e) {
+                console.error('Could not parse error as JSON');
+            }
+            
+            throw new Error(`Search API request failed: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
-        console.log('Claude Search Response:', data);
+        console.log('Claude API Success Response:', data);
+        
+        if (!data.content || !data.content[0] || !data.content[0].text) {
+            console.error('Invalid response structure:', data);
+            throw new Error('Invalid response format from Claude API');
+        }
         
         return {
             answer: data.content[0].text,
@@ -447,7 +484,10 @@ Be specific and cite the document names when referencing information. Format you
         };
         
     } catch (error) {
-        console.error('Error searching with Claude:', error);
+        console.error('=== CLAUDE API ERROR ===');
+        console.error('Error type:', error.constructor.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
         return null;
     }
 }
@@ -483,66 +523,115 @@ function displayClaudeSearchResults(searchResult, query) {
     if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// Fallback local search
 function performLocalSearch(query, documents) {
+    console.log('=== LOCAL SEARCH DEBUG ===');
+    console.log('Query:', query);
+    console.log('Documents to search:', documents.length);
+    
     const results = [];
     const queryLower = query.toLowerCase();
+    const queryWords = queryLower.split(' ').filter(word => word.length > 2);
     
-    documents.forEach(doc => {
+    console.log('Query words:', queryWords);
+    
+    documents.forEach((doc, index) => {
         let relevanceScore = 0;
         let matchedContent = '';
+        let matchDetails = [];
         
-        // Search in various fields
+        // Search in various fields with detailed logging
         const searchFields = [
-            { field: doc.name, weight: 3 },
-            { field: doc.company, weight: 3 },
-            { field: doc.content, weight: 1 },
-            { field: JSON.stringify(doc.coverages || {}), weight: 2 },
-            { field: (doc.additionalInsured || []).join(' '), weight: 2 }
+            { field: doc.name, weight: 3, name: 'name' },
+            { field: doc.company, weight: 3, name: 'company' },
+            { field: doc.content, weight: 1, name: 'content' },
+            { field: JSON.stringify(doc.coverages || {}), weight: 2, name: 'coverages' },
+            { field: (doc.additionalInsured || []).join(' '), weight: 2, name: 'additional_insured' }
         ];
         
-        searchFields.forEach(({ field, weight }) => {
-            if (field && field.toLowerCase().includes(queryLower)) {
-                relevanceScore += weight;
-                if (field === doc.content) {
-                    const startIndex = Math.max(0, field.toLowerCase().indexOf(queryLower) - 50);
-                    matchedContent = field.substring(startIndex, startIndex + 200) + '...';
+        searchFields.forEach(({ field, weight, name }) => {
+            if (field && typeof field === 'string') {
+                const fieldLower = field.toLowerCase();
+                
+                // Check for exact query match
+                if (fieldLower.includes(queryLower)) {
+                    relevanceScore += weight * 2;
+                    matchDetails.push(`${name}: exact match`);
+                    
+                    if (name === 'content') {
+                        const startIndex = Math.max(0, fieldLower.indexOf(queryLower) - 50);
+                        matchedContent = field.substring(startIndex, startIndex + 200) + '...';
+                    }
                 }
+                
+                // Check for individual word matches
+                queryWords.forEach(word => {
+                    if (fieldLower.includes(word)) {
+                        relevanceScore += weight;
+                        matchDetails.push(`${name}: contains '${word}'`);
+                    }
+                });
             }
         });
-        
-        if (relevanceScore > 0) {
+         if (relevanceScore > 0) {
+            console.log(`Document ${index} (${doc.name}):`, {
+                relevanceScore,
+                matchDetails,
+                hasMatchedContent: !!matchedContent
+            });
+            
             results.push({
                 document: doc,
                 relevanceScore,
-                matchedContent: matchedContent || doc.content?.substring(0, 200) + '...' || 'No content preview available'
+                matchedContent: matchedContent || doc.content?.substring(0, 200) + '...' || 'No content preview available',
+                matchDetails
             });
         }
     });
     
-    return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    const sortedResults = results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    console.log('Local search completed. Results found:', sortedResults.length);
+    
+    return sortedResults;
 }
 
-// Display regular search results
+// Enhanced display function with debugging info
 function displaySearchResults(results, query) {
+    console.log('=== DISPLAYING SEARCH RESULTS ===');
+    console.log('Results count:', results.length);
+    console.log('Query:', query);
+    
     if (results.length === 0) {
+        console.log('No results to display, showing empty state');
         searchResults.innerHTML = `
             <div class="empty-state">
                 <div class="empty-state-icon">
                     <i data-lucide="search-x" style="width: 64px; height: 64px;"></i>
                 </div>
                 <div>No results found for "${query}"</div>
-                <div style="margin-top: 1rem; opacity: 0.7; font-size: 14px;">Try different keywords or load sample documents</div>
+                <div style="margin-top: 1rem; opacity: 0.7; font-size: 14px;">
+                    Try different keywords or check console for debug info
+                </div>
+                <div style="margin-top: 1rem; opacity: 0.5; font-size: 12px;">
+                    Debug: Searched ${uploadedDocuments.length + sampleDocuments.length} documents
+                </div>
             </div>
         `;
         if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
     }
     
-    const resultsHTML = results.map(result => {
+    console.log('Generating HTML for results...');
+    
+    const resultsHTML = results.map((result, index) => {
         const doc = result.document;
+        console.log(`Result ${index}:`, {
+            name: doc.name,
+            company: doc.company,
+            relevanceScore: result.relevanceScore
+        });
+        
         const highlightedContent = result.matchedContent.replace(
-            new RegExp(query, 'gi'),
+            new RegExp(query.split(' ').join('|'), 'gi'),
             match => `<span class="highlight">${match}</span>`
         );
         
@@ -561,7 +650,7 @@ function displaySearchResults(results, query) {
                     </div>
                     <div class="metadata-item">
                         <i data-lucide="star" style="width: 12px; height: 12px;"></i>
-                        Relevance: ${result.relevanceScore}
+                        Score: ${result.relevanceScore}
                     </div>
                 </div>
             </div>
@@ -570,6 +659,8 @@ function displaySearchResults(results, query) {
     
     searchResults.innerHTML = resultsHTML;
     if (typeof lucide !== 'undefined') lucide.createIcons();
+    
+    console.log('Results displayed successfully');
 }
 
 // Load sample documents
