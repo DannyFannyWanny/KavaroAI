@@ -9,29 +9,28 @@
 </head>
 <body>
     <!-- Navigation matching your landing page -->
- <!-- Replace the entire nav section in demo/index.html with this: -->
- <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo" onclick="window.location.href='../index.html'">Kavaro AI</div>
-        
-        <ul class="nav-links">
-            <li><a href="../index.html#challenge">Problem</a></li>
-            <li><a href="../index.html#solution">Solution</a></li>
-            <li><a href="index.html">Demo</a></li>
-            <li><a href="../index.html#cta">Get Started</a></li>
-        </ul>
-        
-        <div class="nav-actions">
-            <button class="btn btn-secondary" onclick="window.location.href='../index.html#cta'">
-                Get Started
-            </button>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="window.location.href='../index.html'">Kavaro AI</div>
             
-            <button class="btn btn-launch" onclick="window.location.href='../index.html'">
-                Launch App
-            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html#challenge">Problem</a></li>
+                <li><a href="../index.html#solution">Solution</a></li>
+                <li><a href="index.html">Demo</a></li>
+                <li><a href="../index.html#cta">Get Started</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="btn btn-secondary" onclick="window.location.href='../index.html#cta'">
+                    Get Started
+                </button>
+                
+                <button class="btn btn-launch" onclick="window.location.href='../index.html'">
+                    Launch App
+                </button>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <div class="demo-container">
         <div class="demo-header">
@@ -55,8 +54,8 @@
                         <i data-lucide="file-plus" style="width: 64px; height: 64px;"></i>
                     </div>
                     <div class="upload-text">Drop your COI documents here</div>
-                    <div class="upload-subtext">or click to browse • PDF, JPG, PNG supported</div>
-                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png">
+                    <div class="upload-subtext">or click to browse • PDF, JPG, PNG, TXT supported</div>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.txt">
                 </div>
                 
                 <button class="sample-docs-btn" id="loadSampleDocs">
@@ -88,12 +87,12 @@
                 <div class="search-suggestions">
                     <div style="margin-bottom: 0.5rem; font-weight: 600; opacity: 0.8;">Try these searches:</div>
                     <div class="suggestion-chips">
-                        <div class="suggestion-chip" data-search="general liability coverage limits">General liability limits</div>
-                        <div class="suggestion-chip" data-search="certificates expiring within 30 days">Expiring certificates</div>
-                        <div class="suggestion-chip" data-search="workers compensation coverage">Workers comp coverage</div>
-                        <div class="suggestion-chip" data-search="additional insured parties">Additional insureds</div>
-                        <div class="suggestion-chip" data-search="umbrella policy limits">Umbrella policies</div>
-                        <div class="suggestion-chip" data-search="coverage gaps or exclusions">Coverage gaps</div>
+                        <div class="suggestion-chip" data-search="What are the general liability coverage limits?">General liability limits</div>
+                        <div class="suggestion-chip" data-search="Which certificates are expiring within 30 days?">Expiring certificates</div>
+                        <div class="suggestion-chip" data-search="Show me workers compensation coverage details">Workers comp coverage</div>
+                        <div class="suggestion-chip" data-search="Who are the additional insured parties?">Additional insureds</div>
+                        <div class="suggestion-chip" data-search="What are the umbrella policy limits?">Umbrella policies</div>
+                        <div class="suggestion-chip" data-search="Are there any coverage gaps or exclusions?">Coverage gaps</div>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 // Backend API endpoint to handle Claude API calls
-const CLAUDE_API_KEY = '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';
+const CLAUDE_API_KEY = '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';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 
 // Function to process uploaded files with Claude
