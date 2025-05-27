@@ -1,2 +1,1 @@
 # KavaroAI
-landing page
