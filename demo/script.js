@@ -1,3 +1,18 @@
+// Add this to the TOP of both script.js files
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme from localStorage with consistent key
+    const savedTheme = localStorage.getItem('kavaro-theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+    }
+});
+
+// Update your existing toggleTheme function to use consistent key
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+    localStorage.setItem('kavaro-theme', theme); // Use same key everywhere
+}
 // Sample COI data for demonstration
 const sampleDocuments = [
     {

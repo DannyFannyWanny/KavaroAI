@@ -9,15 +9,26 @@
 </head>
 <body>
     <!-- Navigation matching your landing page -->
-    <nav class="demo-nav">
-        <div class="nav-container">
-            <a href="../index.html" class="logo">Kavaro AI</a>
+ <!-- Replace the entire nav section in demo/index.html with this: -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo" onclick="window.location.href='../index.html'">Kavaro AI</div>
+        
+        <ul class="nav-links">
+            <li><a href="../index.html#challenge">Problem</a></li>
+            <li><a href="../index.html#solution">Solution</a></li>
+            <li><a href="index.html">Demo</a></li>
+            <li><a href="../index.html#cta">Get Started</a></li>
+        </ul>
+        
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="window.location.href='../index.html#cta'">
+                Get Started
+            </button>
             
-            <ul class="nav-links">
-                <li><a href="../index.html#problem">Problem</a></li>
-                <li><a href="../index.html#solution">Solution</a></li>
-                <li><a href="index.html">Demo</a></li>
-            </ul>
+            <button class="btn btn-launch" onclick="window.location.href='../index.html'">
+                Back to Home
+            </button>
             
             <div class="theme-toggle" onclick="toggleTheme()">
                 <div class="theme-icons">
@@ -26,7 +37,8 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="demo-container">
         <div class="demo-header">
