@@ -922,10 +922,11 @@ body.light-theme .stakeholder-node:hover {
     z-index: 20;
 }
 
-/* Light mode override for readable text */
+/* Light mode: Change background and text for better readability */
 body.light-theme .kavaro-hub {
-    color: white; /* Keep white text since gradient background is dark enough */
-    border-color: rgba(255, 255, 255, 0.4); /* Slightly more visible border in light mode */
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Light gradient background */
+    color: #1d1d1f; /* Dark text for readability */
+    border-color: rgba(0, 0, 0, 0.2); /* Dark border for light mode */
 }
 
 .kavaro-hub:hover {
@@ -948,9 +949,9 @@ body.light-theme .kavaro-hub {
     overflow: hidden;
 }
 
-/* Increase icon background opacity in light mode for better contrast */
+/* Change icon background in light mode for better contrast */
 body.light-theme .hub-icon {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 122, 255, 0.1); /* Blue tint for light mode */
 }
 
 .hub-icon::before {
