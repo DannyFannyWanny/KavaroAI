@@ -5,121 +5,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kavaro AI - Interactive Demo</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
 </head>
 <body>
-    <!-- Navigation matching your landing page -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo" onclick="window.location.href='../index.html'">Kavaro AI</div>
-            
-<ul class="nav-links">
-    <li><a href="../index.html#challenge">The Problem</a></li>
-    <li><a href="../index.html#solution">The Solution</a></li>
-    <li><a href="../index.html#ecosystem">The Ecosystem</a></li>
-    <!--li><a href="index.html">Demo</a></li-->
-    <li><a href="../index.html#cta">Contact Us</a></li>
-</ul>
-            
-            <div class="nav-actions">
-                <!--button class="btn btn-secondary" onclick="window.location.href='../index.html#cta'">
-                    Contact Us
-                </button-->
-                
-                <!--button class="btn btn-launch" onclick="window.location.href='../index.html'">
-                    Launch App
-                </button-->
-            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html#challenge">The Problem</a></li>
+                <li><a href="../index.html#solution">The Solution</a></li>
+                <li><a href="../index.html#ecosystem">The Ecosystem</a></li>
+                <li><a href="../index.html#cta">Contact Us</a></li>
+            </ul>
         </div>
     </nav>
 
     <div class="demo-container">
         <div class="demo-header">
-            <div class="demo-badge">🚀 Interactive Demo • Live AI Processing</div>
+            <div class="demo-badge">🚀 Interactive Demo • Pre-loaded Data</div>
             <h1 class="demo-title">Experience Kavaro AI</h1>
             <p class="demo-subtitle">
-                Upload your Certificate of Insurance documents and watch our AI instantly extract, analyze, and make your data searchable. See firsthand how we transform document chaos into intelligent workflows.
+                Explore how our AI transforms Certificate of Insurance documents into intelligent, searchable data. Click through each section to see the power of automated risk management.
             </p>
         </div>
 
-        <div class="demo-grid">
-            <!-- Upload Section -->
-            <div class="card">
-                <h2 class="section-title">
-                    <i data-lucide="upload" style="width: 24px; height: 24px;"></i>
-                    Upload Documents
-                </h2>
-                
-                <div class="upload-zone" id="uploadZone">
-                    <div class="upload-icon">
-                        <i data-lucide="file-plus" style="width: 64px; height: 64px;"></i>
-                    </div>
-                    <div class="upload-text">Drop your COI documents here</div>
-                    <div class="upload-subtext">or click to browse • PDF, JPG, PNG, TXT supported</div>
-                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.txt">
-                </div>
-                
-                <button class="sample-docs-btn" id="loadSampleDocs">
-                    📄 Load Sample COI Documents
-                </button>
-
-                <div class="document-list" id="documentList">
-                    <!-- Documents will be populated here -->
-                </div>
-            </div>
-
-            <!-- Search Section -->
-            <div class="card">
-                <h2 class="section-title">
-                    <i data-lucide="brain" style="width: 24px; height: 24px;"></i>
-                    AI-Powered Search
-                </h2>
-                
-                <div class="search-container">
-                    <i data-lucide="search" class="search-icon"></i>
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        id="searchInput"
-                        placeholder="Ask anything about your insurance documents..."
-                    >
-                </div>
-
-                <div class="search-suggestions">
-                    <div style="margin-bottom: 0.5rem; font-weight: 600; opacity: 0.8;">Try these searches:</div>
-                    <div class="suggestion-chips">
-                        <div class="suggestion-chip" data-search="What are the general liability coverage limits?">General liability limits</div>
-                        <div class="suggestion-chip" data-search="Which certificates are expiring within 30 days?">Expiring certificates</div>
-                        <div class="suggestion-chip" data-search="Show me workers compensation coverage details">Workers comp coverage</div>
-                        <div class="suggestion-chip" data-search="Who are the additional insured parties?">Additional insureds</div>
-                        <div class="suggestion-chip" data-search="What are the umbrella policy limits?">Umbrella policies</div>
-                        <div class="suggestion-chip" data-search="Are there any coverage gaps or exclusions?">Coverage gaps</div>
-                    </div>
-                </div>
-
-                <div class="loading-state" id="loadingState">
-                    <div class="spinner"></div>
-                    <div>AI is analyzing your documents...</div>
-                </div>
-
-                <div class="search-results" id="searchResults">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <i data-lucide="search" style="width: 64px; height: 64px;"></i>
+        <!-- Section 1: Load Sample COI Documents -->
+        <div class="demo-section load-docs">
+            <h2 class="section-title">Load Sample COI Documents</h2>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">Click on any document to see the AI-extracted data and coverage details.</p>
+            
+            <div class="document-grid">
+                <div class="document-card" onclick="showDocumentPreview('abc-construction')">
+                    <div class="doc-header">
+                        <div class="doc-icon">🏗️</div>
+                        <div class="doc-info">
+                            <h3>ABC Construction LLC</h3>
+                            <p>General Contractor</p>
                         </div>
-                        <div>Upload documents and start searching to see AI-powered insights</div>
                     </div>
+                    <div class="doc-details">
+                        <strong>Coverage:</strong> $2M General Liability, $1M Workers Comp<br>
+                        <strong>Expires:</strong> January 15, 2025
+                    </div>
+                    <div class="doc-status status-active">Active Coverage</div>
+                </div>
+
+                <div class="document-card" onclick="showDocumentPreview('xyz-plumbing')">
+                    <div class="doc-header">
+                        <div class="doc-icon">🔧</div>
+                        <div class="doc-info">
+                            <h3>XYZ Plumbing Services</h3>
+                            <p>Specialty Contractor</p>
+                        </div>
+                    </div>
+                    <div class="doc-details">
+                        <strong>Coverage:</strong> $1M General Liability, $2M Professional<br>
+                        <strong>Expires:</strong> February 1, 2025
+                    </div>
+                    <div class="doc-status status-active">Active Coverage</div>
+                </div>
+
+                <div class="document-card" onclick="showDocumentPreview('tech-solutions')">
+                    <div class="doc-header">
+                        <div class="doc-icon">💻</div>
+                        <div class="doc-info">
+                            <h3>Tech Solutions Inc</h3>
+                            <p>IT Services</p>
+                        </div>
+                    </div>
+                    <div class="doc-details">
+                        <strong>Coverage:</strong> $3M General Liability, $5M Professional<br>
+                        <strong>Expires:</strong> December 31, 2024
+                    </div>
+                    <div class="doc-status status-expiring">Expiring Soon</div>
+                </div>
+
+                <div class="document-card" onclick="showDocumentPreview('green-landscaping')">
+                    <div class="doc-header">
+                        <div class="doc-icon">🌿</div>
+                        <div class="doc-info">
+                            <h3>Green Landscaping Co</h3>
+                            <p>Landscaping Services</p>
+                        </div>
+                    </div>
+                    <div class="doc-details">
+                        <strong>Coverage:</strong> $1M General Liability, $500K Commercial Auto<br>
+                        <strong>Expires:</strong> March 20, 2025
+                    </div>
+                    <div class="doc-status status-active">Active Coverage</div>
                 </div>
             </div>
         </div>
 
-        <div class="ai-insights card" id="aiInsights" style="display: none;">
-            <h3 class="insights-title">
-                <i data-lucide="zap" style="width: 24px; height: 24px;"></i>
-                AI Risk Insights
-            </h3>
-            <div id="insightsList">
-                <!-- Insights will be populated here -->
+        <!-- Section 2: AI-Powered Search -->
+        <div class="demo-section ai-search">
+            <h2 class="section-title">Kavaro AI Powered Search</h2>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">Click on any question to see how our AI analyzes and responds to complex risk management queries.</p>
+            
+            <div class="search-questions">
+                <div class="search-question" onclick="showSearchResult('coverage-limits')">
+                    <div class="question-text">What are the general liability coverage limits across all vendors?</div>
+                    <div class="question-hint">Analyze coverage adequacy</div>
+                </div>
+
+                <div class="search-question" onclick="showSearchResult('expiring-certificates')">
+                    <div class="question-text">Which certificates are expiring within the next 90 days?</div>
+                    <div class="question-hint">Proactive renewal management</div>
+                </div>
+
+                <div class="search-question" onclick="showSearchResult('workers-comp')">
+                    <div class="question-text">Show me all workers compensation coverage details</div>
+                    <div class="question-hint">WC compliance analysis</div>
+                </div>
+
+                <div class="search-question" onclick="showSearchResult('additional-insured')">
+                    <div class="question-text">Which vendors list us as additional insured?</div>
+                    <div class="question-hint">Additional insured verification</div>
+                </div>
+
+                <div class="search-question" onclick="showSearchResult('coverage-gaps')">
+                    <div class="question-text">Are there any coverage gaps or exclusions I should know about?</div>
+                    <div class="question-hint">Risk exposure analysis</div>
+                </div>
+
+                <div class="search-question" onclick="showSearchResult('umbrella-policies')">
+                    <div class="question-text">What umbrella and excess coverage do we have?</div>
+                    <div class="question-hint">Excess coverage review</div>
+                </div>
+            </div>
+
+            <div class="loading-state" id="loadingSearch">
+                <div class="spinner"></div>
+                <div>AI is analyzing your documents...</div>
+            </div>
+
+            <div class="search-results" id="searchResults">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+
+        <!-- Section 3: AI Risk Insights -->
+        <div class="demo-section risk-insights">
+            <h2 class="section-title">Kavaro AI Risk Insights</h2>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">Based on the loaded documents and search analysis, here are key risk insights and recommendations.</p>
+            
+            <div class="insights-grid">
+                <div class="insight-card warning">
+                    <div class="insight-header">
+                        <div class="insight-icon warning">⚠️</div>
+                        <div class="insight-title">Expiration Alert</div>
+                    </div>
+                    <div class="insight-content">
+                        Tech Solutions Inc certificate expires December 31, 2024. Immediate renewal required to maintain continuous coverage.
+                    </div>
+                </div>
+
+                <div class="insight-card risk">
+                    <div class="insight-header">
+                        <div class="insight-icon risk">🚨</div>
+                        <div class="insight-title">Coverage Gap Detected</div>
+                    </div>
+                    <div class="insight-content">
+                        XYZ Plumbing has only $500K Workers Compensation coverage, below industry standard of $1M for this trade type.
+                    </div>
+                </div>
+
+                <div class="insight-card opportunity">
+                    <div class="insight-header">
+                        <div class="insight-icon opportunity">✅</div>
+                        <div class="insight-title">Compliance Strong</div>
+                    </div>
+                    <div class="insight-content">
+                        All vendors maintain proper additional insured endorsements. Certificate tracking is 95% compliant with renewal deadlines.
+                    </div>
+                </div>
+
+                <div class="insight-card warning">
+                    <div class="insight-header">
+                        <div class="insight-icon warning">📊</div>
+                        <div class="insight-title">Premium Analysis</div>
+                    </div>
+                    <div class="insight-content">
+                        Green Landscaping's auto liability limits may be insufficient for fleet size. Recommend increasing to $2M combined single limit.
+                    </div>
+                </div>
+
+                <div class="insight-card opportunity">
+                    <div class="insight-header">
+                        <div class="insight-icon opportunity">🎯</div>
+                        <div class="insight-title">Risk Consolidation</div>
+                    </div>
+                    <div class="insight-content">
+                        Opportunity to negotiate master policy terms with ABC Construction given their strong coverage profile and renewal history.
+                    </div>
+                </div>
+
+                <div class="insight-card risk">
+                    <div class="insight-header">
+                        <div class="insight-icon risk">🔍</div>
+                        <div class="insight-title">Policy Review Needed</div>
+                    </div>
+                    <div class="insight-content">
+                        Tech Solutions Inc cyber liability coverage at $2M may be inadequate for IT services scope. Industry standard is $5M+.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div class="modal-overlay" id="documentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Document Preview</div>
+                <button class="close-btn" onclick="closeDocumentPreview()">&times;</button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Content will be populated here -->
             </div>
         </div>
     </div>

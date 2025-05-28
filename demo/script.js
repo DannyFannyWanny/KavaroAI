@@ -1,814 +1,356 @@
-// Theme management - keep at top
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.classList.remove('light-theme');
-});
-
-// Claude API configuration - Updated for 2025
-const CLAUDE_API_KEY = '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';
-const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
-
-// Sample COI data for demonstration
-const sampleDocuments = [
-    {
-        id: 1,
-        name: "ABC Construction COI",
-        type: "Certificate of Insurance",
-        company: "ABC Construction LLC",
-        issueDate: "2024-01-15",
-        expiry: "2025-01-15",
+// Sample document data
+const documentData = {
+    'abc-construction': {
+        name: 'ABC Construction LLC',
+        type: 'Certificate of Insurance',
+        issueDate: 'January 15, 2024',
+        expiryDate: 'January 15, 2025',
+        insurer: 'Liberty Mutual Insurance',
         coverages: {
-            "General Liability": "$2,000,000",
-            "Workers Compensation": "$1,000,000",
-            "Commercial Auto": "$1,000,000",
-            "Umbrella": "$5,000,000"
+            'General Liability': '$2,000,000 per occurrence / $4,000,000 aggregate',
+            'Workers Compensation': '$1,000,000 each accident',
+            'Commercial Auto': '$1,000,000 combined single limit',
+            'Umbrella': '$5,000,000 per occurrence'
         },
-        additionalInsured: ["Property Owner LLC", "General Contractor Inc"],
-        content: "This certificate evidences that ABC Construction LLC maintains the following insurance coverage. General Liability coverage with limits of $2,000,000 per occurrence and $4,000,000 aggregate. Workers Compensation coverage as required by law with limits of $1,000,000. Commercial Auto Liability coverage with combined single limit of $1,000,000. Umbrella coverage with limits of $5,000,000 per occurrence. Additional Insured status is provided to Property Owner LLC and General Contractor Inc as respects General Liability coverage.",
-        processed: true,
-        processing: false
+        additionalInsured: ['Property Owner LLC', 'General Contractor Inc'],
+        description: 'Commercial general contractor specializing in residential and light commercial construction projects.'
     },
-    {
-        id: 2,
-        name: "XYZ Plumbing COI",
-        type: "Certificate of Insurance",
-        company: "XYZ Plumbing Services",
-        issueDate: "2024-02-01",
-        expiry: "2025-02-01",
+    'xyz-plumbing': {
+        name: 'XYZ Plumbing Services',
+        type: 'Certificate of Insurance',
+        issueDate: 'February 1, 2024',
+        expiryDate: 'February 1, 2025',
+        insurer: 'State Farm Business',
         coverages: {
-            "General Liability": "$1,000,000",
-            "Workers Compensation": "$500,000",
-            "Commercial Auto": "$1,000,000",
-            "Professional Liability": "$2,000,000"
+            'General Liability': '$1,000,000 per occurrence / $2,000,000 aggregate',
+            'Workers Compensation': '$500,000 each accident',
+            'Commercial Auto': '$1,000,000 combined single limit',
+            'Professional Liability': '$2,000,000 per claim'
         },
-        additionalInsured: ["Building Owner Corp"],
-        content: "Certificate of Insurance for XYZ Plumbing Services. Coverage includes General Liability $1,000,000 per occurrence, Workers Compensation $500,000, Commercial Auto Liability $1,000,000, and Professional Liability $2,000,000. Building Owner Corp is named as additional insured on General Liability policy.",
-        processed: true,
-        processing: false
+        additionalInsured: ['Building Owner Corp', 'Property Management LLC'],
+        description: 'Licensed plumbing contractor providing residential and commercial plumbing services including installation, repair, and maintenance.'
     },
-    {
-        id: 3,
-        name: "Tech Solutions COI",
-        type: "Certificate of Insurance",
-        company: "Tech Solutions Inc",
-        issueDate: "2024-03-10",
-        expiry: "2024-12-31",
+    'tech-solutions': {
+        name: 'Tech Solutions Inc',
+        type: 'Certificate of Insurance',
+        issueDate: 'January 1, 2024',
+        expiryDate: 'December 31, 2024',
+        insurer: 'Hartford Business Insurance',
         coverages: {
-            "General Liability": "$3,000,000",
-            "Professional Liability": "$5,000,000",
-            "Cyber Liability": "$2,000,000"
+            'General Liability': '$3,000,000 per occurrence / $6,000,000 aggregate',
+            'Professional Liability': '$5,000,000 per claim',
+            'Cyber Liability': '$2,000,000 per incident',
+            'Errors & Omissions': '$3,000,000 per claim'
         },
-        additionalInsured: ["Client Corp", "Vendor LLC"],
-        content: "Certificate of Insurance for Tech Solutions Inc. Professional services company with General Liability $3,000,000, Professional Liability $5,000,000, and Cyber Liability $2,000,000. Multiple additional insureds including Client Corp and Vendor LLC.",
-        processed: true,
-        processing: false
+        additionalInsured: ['Client Corp', 'Technology Partners LLC'],
+        description: 'IT consulting and managed services provider specializing in cloud infrastructure and cybersecurity solutions.'
+    },
+    'green-landscaping': {
+        name: 'Green Landscaping Co',
+        type: 'Certificate of Insurance',
+        issueDate: 'March 20, 2024',
+        expiryDate: 'March 20, 2025',
+        insurer: 'Farmers Business Insurance',
+        coverages: {
+            'General Liability': '$1,000,000 per occurrence / $2,000,000 aggregate',
+            'Commercial Auto': '$500,000 combined single limit',
+            'Workers Compensation': '$1,000,000 each accident',
+            'Equipment Coverage': '$250,000 replacement cost'
+        },
+        additionalInsured: ['Property Management Inc', 'HOA Services LLC'],
+        description: 'Full-service landscaping company providing design, installation, and maintenance services for commercial and residential properties.'
     }
-];
+};
 
-let uploadedDocuments = [];
+// Search result data
+const searchResults = {
+    'coverage-limits': {
+        title: 'General Liability Coverage Analysis',
+        content: `Based on my analysis of your current Certificate of Insurance portfolio, here's a comprehensive breakdown of general liability coverage limits:
 
-// Initialize Lucide icons
-if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-}
+**Coverage Summary:**
+• ABC Construction LLC: <span class="highlight">$2M per occurrence / $4M aggregate</span> - Well positioned for construction risks
+• XYZ Plumbing Services: <span class="highlight">$1M per occurrence / $2M aggregate</span> - Adequate for trade contractor
+• Tech Solutions Inc: <span class="highlight">$3M per occurrence / $6M aggregate</span> - Strong coverage for IT services
+• Green Landscaping Co: <span class="highlight">$1M per occurrence / $2M aggregate</span> - Standard for landscaping operations
 
-// Get DOM elements
-const uploadZone = document.getElementById('uploadZone');
-const fileInput = document.getElementById('fileInput');
-const documentList = document.getElementById('documentList');
-const loadSampleBtn = document.getElementById('loadSampleDocs');
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
-const loadingState = document.getElementById('loadingState');
-const aiInsights = document.getElementById('aiInsights');
+**Key Insights:**
+The average coverage across your vendor portfolio is $1.75M per occurrence, which aligns well with industry standards. Tech Solutions Inc maintains the highest limits at $3M, appropriate for their technology services exposure. All vendors meet your minimum requirements of $1M per occurrence.
 
-// Event listeners
-if (uploadZone) {
-    uploadZone.addEventListener('click', () => fileInput?.click());
-    uploadZone.addEventListener('dragover', handleDragOver);
-    uploadZone.addEventListener('dragleave', handleDragLeave);
-    uploadZone.addEventListener('drop', handleDrop);
-}
+**Recommendation:** Consider requiring umbrella coverage for vendors with contracts exceeding $500K to provide additional protection above primary limits.`,
+        source: 'Analysis of 4 active certificates • Generated in 0.8 seconds'
+    },
+    'expiring-certificates': {
+        title: 'Certificate Expiration Analysis',
+        content: `I've identified upcoming certificate expirations within your 90-day renewal window:
 
-if (fileInput) {
-    fileInput.addEventListener('change', handleFileSelect);
-}
+**Immediate Action Required:**
+• <span class="highlight">Tech Solutions Inc</span> - Expires December 31, 2024 (45 days remaining)
+  - High priority renewal due to active $2.3M project
+  - Professional liability and cyber coverage critical
 
-if (loadSampleBtn) {
-    loadSampleBtn.addEventListener('click', loadSampleDocuments);
-}
+**Upcoming Renewals:**
+• ABC Construction LLC - Expires January 15, 2025 (62 days remaining)
+• XYZ Plumbing Services - Expires February 1, 2025 (79 days remaining)
 
-if (searchInput) {
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleSearch();
-    });
-}
+**Renewal Management:**
+All vendors have been automatically notified 60 days prior to expiration. Tech Solutions Inc requires immediate follow-up as they're approaching the 30-day critical window.
 
-// Add click handlers for suggestion chips after DOM loads
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        const suggestionChips = document.querySelectorAll('.suggestion-chip');
-        suggestionChips.forEach(chip => {
-            chip.addEventListener('click', function() {
-                const searchTerm = this.getAttribute('data-search');
-                if (searchInput) {
-                    searchInput.value = searchTerm;
-                    handleSearch();
-                }
-            });
-        });
-    }, 100);
-});
+**Recommendation:** Implement 90-day advance renewal notices for all technology vendors given their higher compliance requirements and longer underwriting timelines.`,
+        source: 'Real-time expiration tracking • Updated daily'
+    },
+    'workers-comp': {
+        title: 'Workers Compensation Coverage Review',
+        content: `Here's a detailed analysis of workers compensation coverage across your vendor network:
 
-// Drag and drop handlers
-function handleDragOver(e) {
-    e.preventDefault();
-    uploadZone.classList.add('drag-over');
-}
+**Coverage Details:**
+• ABC Construction LLC: <span class="highlight">$1M each accident</span> - Excellent for construction class codes
+• XYZ Plumbing Services: <span class="highlight">$500K each accident</span> - Below recommended minimums
+• Green Landscaping Co: <span class="highlight">$1M each accident</span> - Appropriate for landscaping operations
+• Tech Solutions Inc: <span class="highlight">No WC required</span> - Professional services, independent contractors
 
-function handleDragLeave(e) {
-    e.preventDefault();
-    uploadZone.classList.remove('drag-over');
-}
+**Compliance Analysis:**
+3 out of 4 applicable vendors maintain active workers compensation coverage. XYZ Plumbing's $500K limit falls below the recommended $1M minimum for plumbing contractors due to higher injury frequency rates in this trade.
 
-function handleDrop(e) {
-    e.preventDefault();
-    uploadZone.classList.remove('drag-over');
-    const files = Array.from(e.dataTransfer.files);
-    processFiles(files);
-}
+**Risk Assessment:**
+The plumbing trade has a 3.2x higher injury rate than general contractors. Current limits may expose you to potential gaps in coverage for serious workplace incidents.
 
-function handleFileSelect(e) {
-    const files = Array.from(e.target.files);
-    processFiles(files);
-}
+**Action Item:** Request XYZ Plumbing increase WC limits to $1M or provide certificate of experience modification rating to justify current limits.`,
+        source: 'WC database cross-reference • Industry benchmarking included'
+    },
+    'additional-insured': {
+        title: 'Additional Insured Status Verification',
+        content: `I've verified additional insured endorsements across all active certificates:
 
-// File processing with Claude API
-async function processFiles(files) {
-    for (const file of files) {
-        const doc = {
-            id: Date.now() + Math.random(),
-            name: file.name,
-            type: file.type.includes('pdf') ? 'PDF Document' : 
-                  file.type.includes('image') ? 'Image Document' : 'Text Document',
-            size: formatFileSize(file.size),
-            uploadTime: new Date().toLocaleString(),
-            processed: false,
-            processing: true,
-            company: 'Processing...',
-            content: ''
-        };
-        
-        uploadedDocuments.push(doc);
-        renderDocumentList();
-        
-        try {
-            // Read file content
-            const fileContent = await readFileContent(file);
-            
-            // Process with Claude API
-            const claudeResult = await processDocumentWithClaude(fileContent, file.name);
-            
-            if (claudeResult) {
-                // Update document with Claude's analysis
-                Object.assign(doc, {
-                    company: claudeResult.company || 'Unknown Company',
-                    coverages: claudeResult.coverages || {},
-                    expiry: claudeResult.expiry || 'Unknown',
-                    issueDate: claudeResult.issueDate || 'Unknown',
-                    additionalInsured: claudeResult.additionalInsured || [],
-                    content: claudeResult.summary || fileContent.substring(0, 500),
-                    processed: true,
-                    processing: false
-                });
-            } else {
-                Object.assign(doc, {
-                    processed: false,
-                    processing: false,
-                    error: 'Failed to process document',
-                    company: 'Processing Failed'
-                });
-            }
-        } catch (error) {
-            console.error('Error processing file:', error);
-            Object.assign(doc, {
-                processed: false,
-                processing: false,
-                error: 'Error processing document',
-                company: 'Error'
-            });
-        }
-        
-        renderDocumentList();
-        updateAIInsights();
+**Confirmed Additional Insured Status:**
+• ABC Construction LLC: ✅ <span class="highlight">Property Owner LLC, General Contractor Inc</span>
+• XYZ Plumbing Services: ✅ <span class="highlight">Building Owner Corp, Property Management LLC</span>
+• Tech Solutions Inc: ✅ <span class="highlight">Client Corp, Technology Partners LLC</span>
+• Green Landscaping Co: ✅ <span class="highlight">Property Management Inc, HOA Services LLC</span>
+
+**Endorsement Analysis:**
+All vendors maintain proper additional insured endorsements with both ongoing operations (CG 20 10) and completed operations (CG 20 37) coverage. Primary and non-contributory language is confirmed on all policies.
+
+**Coverage Scope:**
+Additional insured status extends to all named entities for work performed under contract. Coverage includes both liability and defense costs as required by your vendor agreements.
+
+**Compliance Status:** <span class="highlight">100% compliant</span> - All required additional insured endorsements are active and properly documented.`,
+        source: 'Endorsement verification system • Legal compliance checked'
+    },
+    'coverage-gaps': {
+        title: 'Coverage Gap and Exclusion Analysis',
+        content: `I've identified several coverage considerations and potential gaps in your vendor portfolio:
+
+**Coverage Gaps Identified:**
+• <span class="highlight">XYZ Plumbing Services:</span> Workers comp limits below industry standard ($500K vs recommended $1M)
+• <span class="highlight">Green Landscaping Co:</span> Auto liability limits may be insufficient for fleet operations
+• <span class="highlight">Tech Solutions Inc:</span> Cyber liability at $2M may be low for IT service scope
+
+**Notable Exclusions:**
+• Pollution exclusions on all general liability policies (standard)
+• Professional services exclusions on GL policies (covered separately where applicable)
+• Cyber/data breach exclusions on traditional policies (separate cyber coverage recommended)
+
+**Emerging Risks:**
+• Climate-related property damage (consider separate environmental coverage)
+• Supply chain disruption (business interruption coverage gaps)
+• Cryptocurrency/digital asset exposures (emerging coverage area)
+
+**Recommendations:**
+1. Require minimum $1M workers comp for all trade contractors
+2. Annual coverage adequacy reviews based on contract values
+3. Consider master policy approach for high-volume vendors`,
+        source: 'Comprehensive gap analysis • Industry risk benchmarking'
+    },
+    'umbrella-policies': {
+        title: 'Umbrella and Excess Coverage Summary',
+        content: `Here's your current umbrella and excess liability coverage landscape:
+
+**Active Umbrella Policies:**
+• ABC Construction LLC: <span class="highlight">$5M umbrella</span> over primary GL and auto
+  - Follows form coverage with $10K self-insured retention
+  - Includes contractual liability and additional insured coverage
+
+**Excess Coverage Analysis:**
+• Tech Solutions Inc: No umbrella policy identified
+• XYZ Plumbing Services: No umbrella policy identified  
+• Green Landscaping Co: No umbrella policy identified
+
+**Coverage Assessment:**
+Only 25% of your vendor portfolio maintains umbrella coverage. This creates potential gaps for large loss scenarios that exceed primary policy limits.
+
+**Risk Exposure:**
+Current aggregate exposure without umbrella coverage is approximately $8M across all vendors. Large loss scenarios (>$1M) could exhaust primary limits, creating coverage gaps.
+
+**Strategic Recommendations:**
+1. Require $5M umbrella for contracts exceeding $1M
+2. Consider master umbrella policy for frequent vendors
+3. Annual umbrella coverage reviews for risk adequacy
+4. Negotiate shared umbrella programs for cost efficiency`,
+        source: 'Umbrella coverage database • Risk modeling included'
     }
-}
+};
 
-// Helper function to read file content
-function readFileContent(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if (file.type.includes('text')) {
-                resolve(e.target.result);
-            } else {
-                // For PDFs and images, we'll provide a description
-                resolve(`Document: ${file.name}\nType: ${file.type}\nSize: ${formatFileSize(file.size)}\n\nThis is a ${file.type.includes('pdf') ? 'PDF' : 'image'} file. In a production environment, this would be processed with OCR or PDF parsing to extract the actual text content. For this demo, please use the sample documents or upload text files to see the full AI processing capabilities.`);
-            }
-        };
-        reader.onerror = reject;
-        
-        if (file.type.includes('text')) {
-            reader.readAsText(file);
-        } else {
-            reader.readAsDataURL(file);
-        }
-    });
-}
+// Show document preview
+function showDocumentPreview(docId) {
+    const doc = documentData[docId];
+    if (!doc) return;
 
-// Claude API integration for document processing - Updated for 2025
-async function processDocumentWithClaude(fileContent, fileName) {
-    try {
-        console.log('Processing document with Claude API...');
-        
-        const response = await fetch(CLAUDE_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: 'claude-3-5-sonnet-20241022',
-                max_tokens: 2000,
-                messages: [{
-                    role: 'user',
-                    content: `Analyze this insurance document and extract key information:
-
-Document Name: ${fileName}
-Content: ${fileContent}
-
-Please extract and provide the following information in a clear, structured format:
-1. Company/Insured name
-2. Policy type (COI, Policy, etc.)
-3. Issue date
-4. Expiry/effective dates
-5. Coverage types and limits (list each coverage with its limit)
-6. Additional insured parties (if any)
-7. Brief summary of key points
-
-Please format your response clearly with labeled sections for easy parsing.`
-                }]
-            })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('API Error:', response.status, errorText);
-            throw new Error(`API request failed: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        console.log('Claude API Response:', data);
-        
-        if (!data.content || !data.content[0]) {
-            throw new Error('Invalid response format from Claude API');
-        }
-        
-        const analysisText = data.content[0].text;
-        
-        // Parse Claude's response
-        return {
-            company: extractField(analysisText, ['company', 'insured', 'organization']),
-            issueDate: extractField(analysisText, ['issue date', 'issued', 'effective date']),
-            expiry: extractField(analysisText, ['expiry', 'expiration', 'expires']),
-            coverages: extractCoverages(analysisText),
-            additionalInsured: extractAdditionalInsured(analysisText),
-            summary: analysisText
-        };
-        
-    } catch (error) {
-        console.error('Error calling Claude API:', error);
-        return null;
-    }
-}
-
-// Helper functions to extract specific fields - Improved
-function extractField(text, fieldPatterns) {
-    for (const pattern of fieldPatterns) {
-        const regex = new RegExp(`(?:${pattern}):?\\s*([^\\n]+)`, 'i');
-        const match = text.match(regex);
-        if (match && match[1].trim()) {
-            return match[1].trim();
-        }
-    }
-    return 'Not specified';
-}
-
-function extractCoverages(text) {
-    const coverages = {};
-    const lines = text.split('\n');
+    document.getElementById('modalTitle').textContent = doc.name + ' - Certificate Preview';
     
-    // Look for coverage patterns
-    const coveragePatterns = [
-        /general liability[:\s]*[\$]?([\d,]+)/i,
-        /workers compensation[:\s]*[\$]?([\d,]+)/i,
-        /commercial auto[:\s]*[\$]?([\d,]+)/i,
-        /professional liability[:\s]*[\$]?([\d,]+)/i,
-        /umbrella[:\s]*[\$]?([\d,]+)/i,
-        /property[:\s]*[\$]?([\d,]+)/i,
-        /cyber[:\s]*[\$]?([\d,]+)/i
-    ];
-    
-    lines.forEach(line => {
-        coveragePatterns.forEach(pattern => {
-            const match = line.match(pattern);
-            if (match) {
-                const coverageType = pattern.source.split('[')[0].replace(/\\/g, '').replace(/\|/g, ' ');
-                const amount = match[1];
-                const formattedType = coverageType.charAt(0).toUpperCase() + coverageType.slice(1);
-                coverages[formattedType] = `$${amount}`;
-            }
-        });
-    });
-    
-    return coverages;
-}
-
-function extractAdditionalInsured(text) {
-    const aiRegex = /additional insured[^:]*:?\s*([^\.]+)/i;
-    const match = text.match(aiRegex);
-    if (match) {
-        return match[1].split(/[,&]/).map(ai => ai.trim()).filter(ai => ai.length > 0);
-    }
-    return [];
-}
-
-// Search functionality with Claude API - Updated for 2025
-async function handleSearch() {
-    const query = searchInput.value.trim();
-    console.log('Search initiated with query:', query);
-    
-    if (!query) {
-        showEmptyState();
-        return;
-    }
-    
-    const allDocuments = [...uploadedDocuments, ...sampleDocuments];
-    console.log('Total documents available:', allDocuments.length);
-    console.log('Documents:', allDocuments.map(d => ({ name: d.name, company: d.company })));
-    
-    if (allDocuments.length === 0) {
-        searchResults.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">
-                    <i data-lucide="file-text" style="width: 64px; height: 64px;"></i>
+    const content = `
+        <div class="data-section">
+            <h4>📋 Certificate Information</h4>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Document Type</div>
+                    <div class="data-value">${doc.type}</div>
                 </div>
-                <div>Please upload some documents first or load sample documents to search through them.</div>
+                <div class="data-item">
+                    <div class="data-label">Issue Date</div>
+                    <div class="data-value">${doc.issueDate}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Expiry Date</div>
+                    <div class="data-value">${doc.expiryDate}</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Insurance Carrier</div>
+                    <div class="data-value">${doc.insurer}</div>
+                </div>
             </div>
-        `;
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-        return;
-    }
+        </div>
 
-    showLoadingState();
-    
-    try {
-        console.log('Attempting Claude API search...');
-        const searchResult = await searchDocumentsWithClaude(query, allDocuments);
-        
-        if (searchResult) {
-            console.log('Claude search successful, displaying results');
-            displayClaudeSearchResults(searchResult, query);
-        } else {
-            console.log('Claude search failed, falling back to local search');
-            const results = performLocalSearch(query, allDocuments);
-            console.log('Local search results:', results.length, 'matches found');
-            displaySearchResults(results, query);
-        }
-    } catch (error) {
-        console.error('Search error:', error);
-        // Fallback to local search
-        const results = performLocalSearch(query, allDocuments);
-        console.log('Fallback local search results:', results.length, 'matches found');
-        displaySearchResults(results, query);
-    }
-    
-    hideLoadingState();
-}
+        <div class="data-section">
+            <h4>🛡️ Coverage Details</h4>
+            ${Object.entries(doc.coverages).map(([type, limit]) => `
+                <div class="data-item" style="margin-bottom: 0.5rem;">
+                    <div class="data-label">${type}</div>
+                    <div class="data-value">${limit}</div>
+                </div>
+            `).join('')}
+        </div>
 
-// Enhanced Claude-powered search with better error handling
-async function searchDocumentsWithClaude(query, documents) {
-    try {
-        console.log('=== CLAUDE API SEARCH DEBUG ===');
-        console.log('API Key (first 10 chars):', CLAUDE_API_KEY.substring(0, 10) + '...');
-        console.log('Query:', query);
-        console.log('Documents count:', documents.length);
-        
-        const documentsText = documents.map(doc => 
-            `Document: ${doc.name}
-Company: ${doc.company}
-Expiry: ${doc.expiry}
-Issue Date: ${doc.issueDate || 'N/A'}
-Coverages: ${JSON.stringify(doc.coverages || {})}
-Additional Insured: ${(doc.additionalInsured || []).join(', ')}
-Content: ${doc.content || 'No content available'}`
-        ).join('\n\n---\n\n');
-
-        console.log('Documents text length:', documentsText.length);
-        console.log('Sample document text:', documentsText.substring(0, 300) + '...');
-
-        const requestPayload = {
-            model: 'claude-3-5-sonnet-20241022',
-            max_tokens: 1500,
-            messages: [{
-                role: 'user',
-                content: `You are an insurance document analysis expert. Search through these insurance documents and answer the following question: "${query}"
-
-Documents:
-${documentsText}
-
-Please provide:
-1. A direct, clear answer to the question
-2. Which specific documents contain relevant information (mention document names)
-3. Key quotes or data points from those documents
-4. Any risk insights or recommendations based on the information
-
-Be specific and cite the document names when referencing information. Format your response in a clear, professional manner suitable for insurance professionals.`
-            }]
-        };
-
-        console.log('Request payload model:', requestPayload.model);
-        console.log('Request payload message length:', requestPayload.messages[0].content.length);
-
-        const response = await fetch(CLAUDE_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify(requestPayload)
-        });
-
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('API Error Response:', errorText);
-            
-            // Try to parse error JSON
-            try {
-                const errorJson = JSON.parse(errorText);
-                console.error('Parsed error:', errorJson);
-            } catch (e) {
-                console.error('Could not parse error as JSON');
-            }
-            
-            throw new Error(`Search API request failed: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        console.log('Claude API Success Response:', data);
-        
-        if (!data.content || !data.content[0] || !data.content[0].text) {
-            console.error('Invalid response structure:', data);
-            throw new Error('Invalid response format from Claude API');
-        }
-        
-        return {
-            answer: data.content[0].text,
-            documents: documents
-        };
-        
-    } catch (error) {
-        console.error('=== CLAUDE API ERROR ===');
-        console.error('Error type:', error.constructor.name);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
-        return null;
-    }
-}
-
-// Display Claude search results
-function displayClaudeSearchResults(searchResult, query) {
-    const resultsContainer = document.getElementById('searchResults');
-    if (!resultsContainer) return;
-    
-    resultsContainer.innerHTML = `
-        <div class="result-item">
-            <div class="result-title">🧠 AI Analysis Results</div>
-            <div class="result-snippet">
-                ${searchResult.answer.replace(/\n/g, '<br>')}
+        <div class="data-section">
+            <h4>👥 Additional Insured Parties</h4>
+            <div class="data-grid">
+                ${doc.additionalInsured.map(party => `
+                    <div class="data-item">
+                        <div class="data-value">✅ ${party}</div>
+                    </div>
+                `).join('')}
             </div>
-            <div class="result-metadata">
-                <div class="metadata-item">
-                    <i data-lucide="brain" style="width: 12px; height: 12px;"></i>
-                    Powered by Claude AI
-                </div>
-                <div class="metadata-item">
-                    <i data-lucide="file-text" style="width: 12px; height: 12px;"></i>
-                    ${uploadedDocuments.length + sampleDocuments.length} documents analyzed
-                </div>
-                <div class="metadata-item">
-                    <i data-lucide="search" style="width: 12px; height: 12px;"></i>
-                    Query: "${query}"
+        </div>
+
+        <div class="data-section">
+            <h4>📝 Business Description</h4>
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; line-height: 1.6;">
+                ${doc.description}
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h4>🤖 AI Extracted Insights</h4>
+            <div style="background: rgba(48, 209, 88, 0.1); border: 1px solid rgba(48, 209, 88, 0.3); border-radius: 8px; padding: 1rem;">
+                <div style="font-weight: 600; color: #30D158; margin-bottom: 0.5rem;">✅ Certificate Status: Active & Compliant</div>
+                <div style="font-size: 14px; opacity: 0.9;">
+                    • All required coverage types present<br>
+                    • Additional insured endorsements verified<br>
+                    • Primary & non-contributory language confirmed<br>
+                    • Policy limits meet contract requirements
                 </div>
             </div>
         </div>
     `;
-    
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    document.getElementById('modalContent').innerHTML = content;
+    document.getElementById('documentModal').classList.add('active');
 }
 
-function performLocalSearch(query, documents) {
-    console.log('=== LOCAL SEARCH DEBUG ===');
-    console.log('Query:', query);
-    console.log('Documents to search:', documents.length);
-    
-    const results = [];
-    const queryLower = query.toLowerCase();
-    const queryWords = queryLower.split(' ').filter(word => word.length > 2);
-    
-    console.log('Query words:', queryWords);
-    
-    documents.forEach((doc, index) => {
-        let relevanceScore = 0;
-        let matchedContent = '';
-        let matchDetails = [];
-        
-        // Search in various fields with detailed logging
-        const searchFields = [
-            { field: doc.name, weight: 3, name: 'name' },
-            { field: doc.company, weight: 3, name: 'company' },
-            { field: doc.content, weight: 1, name: 'content' },
-            { field: JSON.stringify(doc.coverages || {}), weight: 2, name: 'coverages' },
-            { field: (doc.additionalInsured || []).join(' '), weight: 2, name: 'additional_insured' }
-        ];
-        
-        searchFields.forEach(({ field, weight, name }) => {
-            if (field && typeof field === 'string') {
-                const fieldLower = field.toLowerCase();
-                
-                // Check for exact query match
-                if (fieldLower.includes(queryLower)) {
-                    relevanceScore += weight * 2;
-                    matchDetails.push(`${name}: exact match`);
-                    
-                    if (name === 'content') {
-                        const startIndex = Math.max(0, fieldLower.indexOf(queryLower) - 50);
-                        matchedContent = field.substring(startIndex, startIndex + 200) + '...';
-                    }
-                }
-                
-                // Check for individual word matches
-                queryWords.forEach(word => {
-                    if (fieldLower.includes(word)) {
-                        relevanceScore += weight;
-                        matchDetails.push(`${name}: contains '${word}'`);
-                    }
-                });
-            }
-        });
-         if (relevanceScore > 0) {
-            console.log(`Document ${index} (${doc.name}):`, {
-                relevanceScore,
-                matchDetails,
-                hasMatchedContent: !!matchedContent
-            });
-            
-            results.push({
-                document: doc,
-                relevanceScore,
-                matchedContent: matchedContent || doc.content?.substring(0, 200) + '...' || 'No content preview available',
-                matchDetails
-            });
-        }
-    });
-    
-    const sortedResults = results.sort((a, b) => b.relevanceScore - a.relevanceScore);
-    console.log('Local search completed. Results found:', sortedResults.length);
-    
-    return sortedResults;
+// Close document preview
+function closeDocumentPreview() {
+    document.getElementById('documentModal').classList.remove('active');
 }
 
-// Enhanced display function with debugging info
-function displaySearchResults(results, query) {
-    console.log('=== DISPLAYING SEARCH RESULTS ===');
-    console.log('Results count:', results.length);
-    console.log('Query:', query);
-    
-    if (results.length === 0) {
-        console.log('No results to display, showing empty state');
-        searchResults.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">
-                    <i data-lucide="search-x" style="width: 64px; height: 64px;"></i>
-                </div>
-                <div>No results found for "${query}"</div>
-                <div style="margin-top: 1rem; opacity: 0.7; font-size: 14px;">
-                    Try different keywords or check console for debug info
-                </div>
-                <div style="margin-top: 1rem; opacity: 0.5; font-size: 12px;">
-                    Debug: Searched ${uploadedDocuments.length + sampleDocuments.length} documents
-                </div>
-            </div>
-        `;
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-        return;
-    }
-    
-    console.log('Generating HTML for results...');
-    
-    const resultsHTML = results.map((result, index) => {
-        const doc = result.document;
-        console.log(`Result ${index}:`, {
-            name: doc.name,
-            company: doc.company,
-            relevanceScore: result.relevanceScore
-        });
-        
-        const highlightedContent = result.matchedContent.replace(
-            new RegExp(query.split(' ').join('|'), 'gi'),
-            match => `<span class="highlight">${match}</span>`
-        );
-        
-        return `
-            <div class="result-item">
-                <div class="result-title">${doc.name}</div>
-                <div class="result-snippet">${highlightedContent}</div>
-                <div class="result-metadata">
-                    <div class="metadata-item">
-                        <i data-lucide="building" style="width: 12px; height: 12px;"></i>
-                        ${doc.company}
-                    </div>
-                    <div class="metadata-item">
-                        <i data-lucide="calendar" style="width: 12px; height: 12px;"></i>
-                        Expires: ${doc.expiry}
-                    </div>
-                    <div class="metadata-item">
-                        <i data-lucide="star" style="width: 12px; height: 12px;"></i>
-                        Score: ${result.relevanceScore}
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    searchResults.innerHTML = resultsHTML;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    
-    console.log('Results displayed successfully');
-}
+// Show search results
+function showSearchResult(queryId) {
+    const result = searchResults[queryId];
+    if (!result) return;
 
-// Load sample documents
-function loadSampleDocuments() {
-    uploadedDocuments = [...sampleDocuments];
-    renderDocumentList();
-    updateAIInsights();
+    // Show loading state
+    const loading = document.getElementById('loadingSearch');
+    const results = document.getElementById('searchResults');
     
-    // Show success message
-    const button = loadSampleBtn;
-    const originalText = button.textContent;
-    button.textContent = '✅ Sample documents loaded!';
-    button.style.background = '#30D158';
-    
+    loading.classList.add('active');
+    results.classList.remove('active');
+
+    // Simulate AI processing time
     setTimeout(() => {
-        button.textContent = originalText;
-        button.style.background = '#007AFF';
+        loading.classList.remove('active');
+        
+        const resultHTML = `
+            <div class="result-card">
+                <div class="result-title">
+                    🧠 ${result.title}
+                </div>
+                <div class="result-content">
+                    ${result.content}
+                </div>
+                <div class="result-source">
+                    ${result.source}
+                </div>
+            </div>
+        `;
+        
+        results.innerHTML = resultHTML;
+        results.classList.add('active');
+        
+        // Scroll to results
+        results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 2000);
 }
 
-// Render document list
-function renderDocumentList() {
-    if (!documentList) return;
-    
-    if (uploadedDocuments.length === 0) {
-        documentList.innerHTML = '';
-        return;
+// Close modal when clicking outside
+document.getElementById('documentModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDocumentPreview();
     }
-    
-    const documentsHTML = uploadedDocuments.map(doc => `
-        <div class="document-item">
-            <div class="doc-icon">
-                ${doc.processing ? 
-                    '<div class="spinner" style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white;"></div>' :
-                    '<i data-lucide="file-text" style="width: 20px; height: 20px;"></i>'
-                }
-            </div>
-            <div class="doc-info">
-                <div class="doc-name">${doc.name}</div>
-                <div class="doc-details">
-                    ${doc.processing ? 'Processing with AI...' : 
-                      doc.processed ? `${doc.company} • Expires: ${doc.expiry}` :
-                      doc.error || 'Ready for processing'}
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    documentList.innerHTML = documentsHTML;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-}
+});
 
-// Update AI insights
-function updateAIInsights() {
-    if (!aiInsights) return;
-    
-    const processedDocs = uploadedDocuments.filter(doc => doc.processed);
-    
-    if (processedDocs.length === 0) {
-        aiInsights.style.display = 'none';
-        return;
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeDocumentPreview();
     }
-    
-    const insights = [];
-    
-    // Check for expiring certificates (within 30 days)
-    const today = new Date();
-    const thirtyDaysFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-    
-    processedDocs.forEach(doc => {
-        if (doc.expiry && doc.expiry !== 'Unknown') {
-            const expiryDate = new Date(doc.expiry);
-            if (expiryDate <= thirtyDaysFromNow && expiryDate > today) {
-                insights.push({
-                    type: 'expiry',
-                    icon: '⚠️',
-                    text: `${doc.company} certificate expires ${doc.expiry}`
-                });
-            }
-        }
-        
-        // Check coverage limits
-        if (doc.coverages) {
-            Object.entries(doc.coverages).forEach(([coverage, limit]) => {
-                const amount = parseInt(limit.replace(/[$,]/g, ''));
-                if (amount < 1000000) {
-                    insights.push({
-                        type: 'coverage',
-                        icon: '🔍',
-                        text: `${doc.company} has low ${coverage} coverage: ${limit}`
-                    });
-                }
-            });
+});
+
+// Smooth scroll for navigation links
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href.startsWith('../index.html#')) {
+            // Handle navigation to main page sections
+            window.location.href = href;
         }
     });
-    
-    // General insights
-    insights.push({
-        type: 'risk',
-        icon: '📊',
-        text: `Analyzed ${processedDocs.length} documents with AI-powered intelligence`
+});
+
+// Add loading animations on page load
+window.addEventListener('load', function() {
+    const cards = document.querySelectorAll('.document-card, .search-question, .insight-card');
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+    });
+});
+
+// Add hover effects for better interactivity
+document.querySelectorAll('.document-card, .search-question').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
     });
     
-    const insightsHTML = insights.map(insight => `
-        <div class="insight-item">
-            <div class="insight-icon insight-${insight.type}">
-                ${insight.icon}
-            </div>
-            <div>${insight.text}</div>
-        </div>
-    `).join('');
-    
-    const insightsList = document.getElementById('insightsList');
-    if (insightsList) {
-        insightsList.innerHTML = insightsHTML;
-    }
-    aiInsights.style.display = 'block';
-}
-
-// Loading and empty state functions
-function showLoadingState() {
-    if (loadingState) loadingState.classList.add('active');
-    if (searchResults) searchResults.innerHTML = '';
-}
-
-function hideLoadingState() {
-    if (loadingState) loadingState.classList.remove('active');
-}
-
-function showEmptyState() {
-    if (!searchResults) return;
-    
-    searchResults.innerHTML = `
-        <div class="empty-state">
-            <div class="empty-state-icon">
-                <i data-lucide="search" style="width: 64px; height: 64px;"></i>
-            </div>
-            <div>Enter a search query to find information in your documents</div>
-        </div>
-    `;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-}
-
-// Utility function
-function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+    });
+});
