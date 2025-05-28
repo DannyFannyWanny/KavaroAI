@@ -399,6 +399,212 @@ body {
     font-style: italic;
 }
 
+/* Enhanced Search Results Formatting */
+.result-card.formatted {
+    background: rgba(48, 209, 88, 0.08);
+    border: 1px solid rgba(48, 209, 88, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1rem;
+}
+
+.result-summary {
+    background: rgba(48, 209, 88, 0.1);
+    border-left: 4px solid #30D158;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0 2rem 0;
+    border-radius: 0 8px 8px 0;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.result-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.result-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Result Item Rows */
+.result-item-row {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.result-item-row:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.item-label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 0.25rem;
+    color: #ffffff;
+}
+
+.item-value {
+    font-size: 14px;
+    color: #30D158;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.item-note {
+    font-size: 13px;
+    opacity: 0.8;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Status-based styling */
+.status-excellent {
+    border-left-color: #30D158;
+    background: rgba(48, 209, 88, 0.1);
+}
+
+.status-excellent .item-value {
+    color: #30D158;
+}
+
+.status-adequate {
+    border-left-color: #007AFF;
+    background: rgba(0, 122, 255, 0.1);
+}
+
+.status-adequate .item-value {
+    color: #007AFF;
+}
+
+.status-warning {
+    border-left-color: #FF9500;
+    background: rgba(255, 149, 0, 0.1);
+}
+
+.status-warning .item-value {
+    color: #FF9500;
+}
+
+.status-urgent {
+    border-left-color: #FF3B30;
+    background: rgba(255, 59, 48, 0.1);
+}
+
+.status-urgent .item-value {
+    color: #FF3B30;
+}
+
+.status-upcoming {
+    border-left-color: #FFD60A;
+    background: rgba(255, 214, 10, 0.1);
+}
+
+.status-upcoming .item-value {
+    color: #FFD60A;
+}
+
+.status-compliant {
+    border-left-color: #30D158;
+    background: rgba(48, 209, 88, 0.1);
+}
+
+.status-compliant .item-value {
+    color: #30D158;
+}
+
+.status-caution {
+    border-left-color: #AF52DE;
+    background: rgba(175, 82, 222, 0.1);
+}
+
+.status-caution .item-value {
+    color: #AF52DE;
+}
+
+.status-gap {
+    border-left-color: #FF6482;
+    background: rgba(255, 100, 130, 0.1);
+}
+
+.status-gap .item-value {
+    color: #FF6482;
+}
+
+/* Bullet Points */
+.result-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result-bullets li {
+    position: relative;
+    padding: 0.5rem 0 0.5rem 2rem;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.result-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0.5rem;
+    color: #30D158;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.result-bullets li:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    margin: 0 -0.5rem;
+    padding-left: 2.5rem;
+}
+
+/* Content Blocks */
+.result-content-block {
+    background: rgba(0, 122, 255, 0.1);
+    border: 1px solid rgba(0, 122, 255, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.result-content-block strong {
+    color: #007AFF;
+    font-weight: 600;
+}
+
+/* Enhanced highlighting for formatted results */
+.result-card.formatted .highlight {
+    background: rgba(255, 235, 59, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #FFD700;
+    font-weight: 600;
+    border: 1px solid rgba(255, 235, 59, 0.4);
+}
+
 /* Insights Grid */
 .insights-grid {
     display: grid;
@@ -629,5 +835,29 @@ body {
     .modal {
         width: 95%;
         padding: 1.5rem;
+    }
+    
+    .result-sections {
+        gap: 1.5rem;
+    }
+    
+    .result-section {
+        padding: 1rem;
+    }
+    
+    .result-item-row {
+        padding: 0.75rem;
+    }
+    
+    .section-header {
+        font-size: 16px;
+    }
+    
+    .item-label {
+        font-size: 14px;
+    }
+    
+    .item-value {
+        font-size: 13px;
     }
 }

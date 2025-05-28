@@ -1,4 +1,4 @@
-// Sample document data
+// Sample document data// Sample document data
 const documentData = {
     'abc-construction': {
         name: 'ABC Construction LLC',
@@ -62,131 +62,206 @@ const documentData = {
     }
 };
 
-// Search result data
+// Updated search result data with better formatting
 const searchResults = {
     'coverage-limits': {
         title: 'General Liability Coverage Analysis',
-        content: `Based on my analysis of your current Certificate of Insurance portfolio, here's a comprehensive breakdown of general liability coverage limits:
-
-**Coverage Summary:**
-• ABC Construction LLC: <span class="highlight">$2M per occurrence / $4M aggregate</span> - Well positioned for construction risks
-• XYZ Plumbing Services: <span class="highlight">$1M per occurrence / $2M aggregate</span> - Adequate for trade contractor
-• Tech Solutions Inc: <span class="highlight">$3M per occurrence / $6M aggregate</span> - Strong coverage for IT services
-• Green Landscaping Co: <span class="highlight">$1M per occurrence / $2M aggregate</span> - Standard for landscaping operations
-
-**Key Insights:**
-The average coverage across your vendor portfolio is $1.75M per occurrence, which aligns well with industry standards. Tech Solutions Inc maintains the highest limits at $3M, appropriate for their technology services exposure. All vendors meet your minimum requirements of $1M per occurrence.
-
-**Recommendation:** Consider requiring umbrella coverage for vendors with contracts exceeding $500K to provide additional protection above primary limits.`,
+        summary: 'All 4 vendors meet minimum requirements with average coverage of $1.75M per occurrence',
+        sections: [
+            {
+                title: '📊 Coverage Summary',
+                items: [
+                    { label: 'ABC Construction LLC', value: '$2M per occurrence / $4M aggregate', status: 'excellent', note: 'Well positioned for construction risks' },
+                    { label: 'Tech Solutions Inc', value: '$3M per occurrence / $6M aggregate', status: 'excellent', note: 'Strong coverage for IT services' },
+                    { label: 'XYZ Plumbing Services', value: '$1M per occurrence / $2M aggregate', status: 'adequate', note: 'Adequate for trade contractor' },
+                    { label: 'Green Landscaping Co', value: '$1M per occurrence / $2M aggregate', status: 'adequate', note: 'Standard for landscaping operations' }
+                ]
+            },
+            {
+                title: '🎯 Key Insights',
+                bullets: [
+                    'Average coverage across portfolio: <strong>$1.75M per occurrence</strong>',
+                    'All vendors exceed minimum requirement of $1M',
+                    'Tech Solutions maintains highest limits appropriate for their risk profile',
+                    'Coverage aligns well with industry standards'
+                ]
+            },
+            {
+                title: '💡 Recommendation',
+                content: 'Consider requiring umbrella coverage for vendors with contracts exceeding $500K to provide additional protection above primary limits.'
+            }
+        ],
         source: 'Analysis of 4 active certificates • Generated in 0.8 seconds'
     },
     'expiring-certificates': {
         title: 'Certificate Expiration Analysis',
-        content: `I've identified upcoming certificate expirations within your 90-day renewal window:
-
-**Immediate Action Required:**
-• <span class="highlight">Tech Solutions Inc</span> - Expires December 31, 2024 (45 days remaining)
-  - High priority renewal due to active $2.3M project
-  - Professional liability and cyber coverage critical
-
-**Upcoming Renewals:**
-• ABC Construction LLC - Expires January 15, 2025 (62 days remaining)
-• XYZ Plumbing Services - Expires February 1, 2025 (79 days remaining)
-
-**Renewal Management:**
-All vendors have been automatically notified 60 days prior to expiration. Tech Solutions Inc requires immediate follow-up as they're approaching the 30-day critical window.
-
-**Recommendation:** Implement 90-day advance renewal notices for all technology vendors given their higher compliance requirements and longer underwriting timelines.`,
+        summary: '1 certificate requires immediate attention, 2 renewals upcoming in next 90 days',
+        sections: [
+            {
+                title: '🚨 Immediate Action Required',
+                items: [
+                    { 
+                        label: 'Tech Solutions Inc', 
+                        value: 'Expires December 31, 2024', 
+                        status: 'urgent', 
+                        note: '45 days remaining - High priority due to active $2.3M project'
+                    }
+                ]
+            },
+            {
+                title: '📅 Upcoming Renewals (Next 90 Days)',
+                items: [
+                    { label: 'ABC Construction LLC', value: 'January 15, 2025', status: 'upcoming', note: '62 days remaining' },
+                    { label: 'XYZ Plumbing Services', value: 'February 1, 2025', status: 'upcoming', note: '79 days remaining' }
+                ]
+            },
+            {
+                title: '✅ Renewal Management Status',
+                bullets: [
+                    'All vendors automatically notified 60 days prior to expiration',
+                    'Tech Solutions Inc requires immediate follow-up (approaching 30-day critical window)',
+                    'Professional liability and cyber coverage critical for Tech Solutions'
+                ]
+            },
+            {
+                title: '💡 Recommendation',
+                content: 'Implement 90-day advance renewal notices for all technology vendors given their higher compliance requirements and longer underwriting timelines.'
+            }
+        ],
         source: 'Real-time expiration tracking • Updated daily'
     },
     'workers-comp': {
         title: 'Workers Compensation Coverage Review',
-        content: `Here's a detailed analysis of workers compensation coverage across your vendor network:
-
-**Coverage Details:**
-• ABC Construction LLC: <span class="highlight">$1M each accident</span> - Excellent for construction class codes
-• XYZ Plumbing Services: <span class="highlight">$500K each accident</span> - Below recommended minimums
-• Green Landscaping Co: <span class="highlight">$1M each accident</span> - Appropriate for landscaping operations
-• Tech Solutions Inc: <span class="highlight">No WC required</span> - Professional services, independent contractors
-
-**Compliance Analysis:**
-3 out of 4 applicable vendors maintain active workers compensation coverage. XYZ Plumbing's $500K limit falls below the recommended $1M minimum for plumbing contractors due to higher injury frequency rates in this trade.
-
-**Risk Assessment:**
-The plumbing trade has a 3.2x higher injury rate than general contractors. Current limits may expose you to potential gaps in coverage for serious workplace incidents.
-
-**Action Item:** Request XYZ Plumbing increase WC limits to $1M or provide certificate of experience modification rating to justify current limits.`,
+        summary: '3 of 4 vendors maintain WC coverage, 1 vendor below recommended minimums',
+        sections: [
+            {
+                title: '🛡️ Coverage Details',
+                items: [
+                    { label: 'ABC Construction LLC', value: '$1M each accident', status: 'excellent', note: 'Excellent for construction class codes' },
+                    { label: 'Green Landscaping Co', value: '$1M each accident', status: 'excellent', note: 'Appropriate for landscaping operations' },
+                    { label: 'XYZ Plumbing Services', value: '$500K each accident', status: 'warning', note: 'Below recommended $1M minimum' },
+                    { label: 'Tech Solutions Inc', value: 'No WC required', status: 'compliant', note: 'Professional services, independent contractors' }
+                ]
+            },
+            {
+                title: '⚠️ Risk Assessment',
+                bullets: [
+                    'Plumbing trade has <strong>3.2x higher injury rate</strong> than general contractors',
+                    'XYZ Plumbing\'s $500K limit may expose gaps for serious workplace incidents',
+                    'Current limits below industry standard for plumbing contractors'
+                ]
+            },
+            {
+                title: '✅ Compliance Status',
+                content: '75% compliant - 3 out of 4 applicable vendors maintain active workers compensation coverage'
+            },
+            {
+                title: '🎯 Action Required',
+                content: 'Request XYZ Plumbing increase WC limits to $1M or provide experience modification rating to justify current limits.'
+            }
+        ],
         source: 'WC database cross-reference • Industry benchmarking included'
     },
     'additional-insured': {
         title: 'Additional Insured Status Verification',
-        content: `I've verified additional insured endorsements across all active certificates:
-
-**Confirmed Additional Insured Status:**
-• ABC Construction LLC: ✅ <span class="highlight">Property Owner LLC, General Contractor Inc</span>
-• XYZ Plumbing Services: ✅ <span class="highlight">Building Owner Corp, Property Management LLC</span>
-• Tech Solutions Inc: ✅ <span class="highlight">Client Corp, Technology Partners LLC</span>
-• Green Landscaping Co: ✅ <span class="highlight">Property Management Inc, HOA Services LLC</span>
-
-**Endorsement Analysis:**
-All vendors maintain proper additional insured endorsements with both ongoing operations (CG 20 10) and completed operations (CG 20 37) coverage. Primary and non-contributory language is confirmed on all policies.
-
-**Coverage Scope:**
-Additional insured status extends to all named entities for work performed under contract. Coverage includes both liability and defense costs as required by your vendor agreements.
-
-**Compliance Status:** <span class="highlight">100% compliant</span> - All required additional insured endorsements are active and properly documented.`,
+        summary: '100% compliant - All vendors maintain proper additional insured endorsements',
+        sections: [
+            {
+                title: '✅ Confirmed Additional Insured Status',
+                items: [
+                    { label: 'ABC Construction LLC', value: 'Property Owner LLC, General Contractor Inc', status: 'compliant' },
+                    { label: 'XYZ Plumbing Services', value: 'Building Owner Corp, Property Management LLC', status: 'compliant' },
+                    { label: 'Tech Solutions Inc', value: 'Client Corp, Technology Partners LLC', status: 'compliant' },
+                    { label: 'Green Landscaping Co', value: 'Property Management Inc, HOA Services LLC', status: 'compliant' }
+                ]
+            },
+            {
+                title: '📋 Endorsement Analysis',
+                bullets: [
+                    'All policies include <strong>ongoing operations (CG 20 10)</strong> coverage',
+                    'All policies include <strong>completed operations (CG 20 37)</strong> coverage',
+                    'Primary and non-contributory language confirmed on all policies',
+                    'Defense costs coverage included as required by vendor agreements'
+                ]
+            },
+            {
+                title: '🛡️ Coverage Scope',
+                content: 'Additional insured status extends to all named entities for work performed under contract, including both liability and defense costs.'
+            }
+        ],
         source: 'Endorsement verification system • Legal compliance checked'
     },
     'coverage-gaps': {
         title: 'Coverage Gap and Exclusion Analysis',
-        content: `I've identified several coverage considerations and potential gaps in your vendor portfolio:
-
-**Coverage Gaps Identified:**
-• <span class="highlight">XYZ Plumbing Services:</span> Workers comp limits below industry standard ($500K vs recommended $1M)
-• <span class="highlight">Green Landscaping Co:</span> Auto liability limits may be insufficient for fleet operations
-• <span class="highlight">Tech Solutions Inc:</span> Cyber liability at $2M may be low for IT service scope
-
-**Notable Exclusions:**
-• Pollution exclusions on all general liability policies (standard)
-• Professional services exclusions on GL policies (covered separately where applicable)
-• Cyber/data breach exclusions on traditional policies (separate cyber coverage recommended)
-
-**Emerging Risks:**
-• Climate-related property damage (consider separate environmental coverage)
-• Supply chain disruption (business interruption coverage gaps)
-• Cryptocurrency/digital asset exposures (emerging coverage area)
-
-**Recommendations:**
-1. Require minimum $1M workers comp for all trade contractors
-2. Annual coverage adequacy reviews based on contract values
-3. Consider master policy approach for high-volume vendors`,
+        summary: '3 potential coverage gaps identified, standard exclusions noted',
+        sections: [
+            {
+                title: '⚠️ Coverage Gaps Identified',
+                items: [
+                    { label: 'XYZ Plumbing Services', value: 'Workers Comp: $500K vs $1M recommended', status: 'warning', note: 'Below industry standard' },
+                    { label: 'Green Landscaping Co', value: 'Auto Liability: May be insufficient for fleet', status: 'warning', note: 'Fleet operations exposure' },
+                    { label: 'Tech Solutions Inc', value: 'Cyber Liability: $2M may be low for IT scope', status: 'caution', note: 'Consider increasing limits' }
+                ]
+            },
+            {
+                title: '📝 Standard Exclusions (Normal)',
+                bullets: [
+                    'Pollution exclusions on all general liability policies',
+                    'Professional services exclusions on GL policies (covered separately)',
+                    'Cyber/data breach exclusions on traditional policies'
+                ]
+            },
+            {
+                title: '🔮 Emerging Risk Considerations',
+                bullets: [
+                    'Climate-related property damage exposures',
+                    'Supply chain disruption gaps',
+                    'Cryptocurrency/digital asset exposures'
+                ]
+            },
+            {
+                title: '💡 Recommendations',
+                content: '1. Require minimum $1M workers comp for trade contractors<br>2. Annual coverage adequacy reviews based on contract values<br>3. Consider master policy approach for high-volume vendors'
+            }
+        ],
         source: 'Comprehensive gap analysis • Industry risk benchmarking'
     },
     'umbrella-policies': {
         title: 'Umbrella and Excess Coverage Summary',
-        content: `Here's your current umbrella and excess liability coverage landscape:
-
-**Active Umbrella Policies:**
-• ABC Construction LLC: <span class="highlight">$5M umbrella</span> over primary GL and auto
-  - Follows form coverage with $10K self-insured retention
-  - Includes contractual liability and additional insured coverage
-
-**Excess Coverage Analysis:**
-• Tech Solutions Inc: No umbrella policy identified
-• XYZ Plumbing Services: No umbrella policy identified  
-• Green Landscaping Co: No umbrella policy identified
-
-**Coverage Assessment:**
-Only 25% of your vendor portfolio maintains umbrella coverage. This creates potential gaps for large loss scenarios that exceed primary policy limits.
-
-**Risk Exposure:**
-Current aggregate exposure without umbrella coverage is approximately $8M across all vendors. Large loss scenarios (>$1M) could exhaust primary limits, creating coverage gaps.
-
-**Strategic Recommendations:**
-1. Require $5M umbrella for contracts exceeding $1M
-2. Consider master umbrella policy for frequent vendors
-3. Annual umbrella coverage reviews for risk adequacy
-4. Negotiate shared umbrella programs for cost efficiency`,
+        summary: 'Only 25% of vendors maintain umbrella coverage, creating potential exposure gaps',
+        sections: [
+            {
+                title: '☂️ Active Umbrella Policies',
+                items: [
+                    { 
+                        label: 'ABC Construction LLC', 
+                        value: '$5M umbrella over primary GL and auto', 
+                        status: 'excellent', 
+                        note: 'Includes contractual liability and additional insured coverage'
+                    }
+                ]
+            },
+            {
+                title: '❌ No Umbrella Coverage',
+                items: [
+                    { label: 'Tech Solutions Inc', value: 'No umbrella policy identified', status: 'gap' },
+                    { label: 'XYZ Plumbing Services', value: 'No umbrella policy identified', status: 'gap' },
+                    { label: 'Green Landscaping Co', value: 'No umbrella policy identified', status: 'gap' }
+                ]
+            },
+            {
+                title: '📊 Risk Exposure Analysis',
+                bullets: [
+                    'Current aggregate exposure: <strong>~$8M across all vendors</strong>',
+                    'Large loss scenarios (>$1M) could exhaust primary limits',
+                    'Only 25% of portfolio maintains umbrella coverage'
+                ]
+            },
+            {
+                title: '🎯 Strategic Recommendations',
+                content: '1. Require $5M umbrella for contracts exceeding $1M<br>2. Consider master umbrella policy for frequent vendors<br>3. Annual umbrella coverage reviews for risk adequacy<br>4. Negotiate shared umbrella programs for cost efficiency'
+            }
+        ],
         source: 'Umbrella coverage database • Risk modeling included'
     }
 };
@@ -272,7 +347,7 @@ function closeDocumentPreview() {
     document.getElementById('documentModal').classList.remove('active');
 }
 
-// Show search results
+// Updated function to display formatted search results
 function showSearchResult(queryId) {
     const result = searchResults[queryId];
     if (!result) return;
@@ -288,13 +363,50 @@ function showSearchResult(queryId) {
     setTimeout(() => {
         loading.classList.remove('active');
         
+        // Build formatted result HTML
+        let sectionsHTML = '';
+        
+        result.sections.forEach(section => {
+            sectionsHTML += `<div class="result-section">`;
+            sectionsHTML += `<h4 class="section-header">${section.title}</h4>`;
+            
+            if (section.items) {
+                // Display items in a structured format
+                section.items.forEach(item => {
+                    const statusClass = getStatusClass(item.status);
+                    sectionsHTML += `
+                        <div class="result-item-row ${statusClass}">
+                            <div class="item-label">${item.label}</div>
+                            <div class="item-value">${item.value}</div>
+                            ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+                        </div>
+                    `;
+                });
+            } else if (section.bullets) {
+                // Display bullet points
+                sectionsHTML += `<ul class="result-bullets">`;
+                section.bullets.forEach(bullet => {
+                    sectionsHTML += `<li>${bullet}</li>`;
+                });
+                sectionsHTML += `</ul>`;
+            } else if (section.content) {
+                // Display content block
+                sectionsHTML += `<div class="result-content-block">${section.content}</div>`;
+            }
+            
+            sectionsHTML += `</div>`;
+        });
+        
         const resultHTML = `
-            <div class="result-card">
+            <div class="result-card formatted">
                 <div class="result-title">
                     🧠 ${result.title}
                 </div>
-                <div class="result-content">
-                    ${result.content}
+                <div class="result-summary">
+                    ${result.summary}
+                </div>
+                <div class="result-sections">
+                    ${sectionsHTML}
                 </div>
                 <div class="result-source">
                     ${result.source}
@@ -308,6 +420,21 @@ function showSearchResult(queryId) {
         // Scroll to results
         results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 2000);
+}
+
+// Helper function to get status CSS class
+function getStatusClass(status) {
+    const statusMap = {
+        'excellent': 'status-excellent',
+        'adequate': 'status-adequate', 
+        'warning': 'status-warning',
+        'urgent': 'status-urgent',
+        'upcoming': 'status-upcoming',
+        'compliant': 'status-compliant',
+        'caution': 'status-caution',
+        'gap': 'status-gap'
+    };
+    return statusMap[status] || '';
 }
 
 // Close modal when clicking outside
