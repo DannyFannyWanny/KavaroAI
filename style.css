@@ -905,7 +905,8 @@ body.light-theme .stakeholder-node:hover {
     margin-bottom: 0.5rem;
 }
 
-/* Central Kavaro AI Hub */
+/* Replace the existing .kavaro-hub rule in your style.css with this updated version */
+
 .kavaro-hub {
     grid-column: 2;
     grid-row: 1 / 3;
@@ -915,10 +916,16 @@ body.light-theme .stakeholder-node:hover {
     align-items: center;
     background: linear-gradient(135deg, #007AFF, #30D158);
     border: 3px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    color: white; /* Default dark mode text */
     text-align: center;
     position: relative;
     z-index: 20;
+}
+
+/* Light mode override for readable text */
+body.light-theme .kavaro-hub {
+    color: white; /* Keep white text since gradient background is dark enough */
+    border-color: rgba(255, 255, 255, 0.4); /* Slightly more visible border in light mode */
 }
 
 .kavaro-hub:hover {
@@ -926,6 +933,7 @@ body.light-theme .stakeholder-node:hover {
     box-shadow: 0 30px 60px rgba(0, 122, 255, 0.4);
 }
 
+/* Also update the hub icon for better contrast */
 .hub-icon {
     width: 80px;
     height: 80px;
@@ -940,6 +948,11 @@ body.light-theme .stakeholder-node:hover {
     overflow: hidden;
 }
 
+/* Increase icon background opacity in light mode for better contrast */
+body.light-theme .hub-icon {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .hub-icon::before {
     content: '';
     position: absolute;
@@ -951,27 +964,25 @@ body.light-theme .stakeholder-node:hover {
     animation: shine 3s infinite;
 }
 
-@keyframes shine {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-}
-
 .hub-title {
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 0.5rem;
+    color: inherit; /* Use inherited color */
 }
 
 .hub-subtitle {
     font-size: 14px;
     opacity: 0.9;
     margin-bottom: 1.5rem;
+    color: inherit; /* Use inherited color */
 }
 
 .hub-features {
     font-size: 12px;
     opacity: 0.8;
     line-height: 1.6;
+    color: inherit; /* Use inherited color */
 }
 
 /* Connection Lines */
