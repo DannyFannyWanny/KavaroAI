@@ -44,43 +44,27 @@ const documentData = {
         },
         additionalInsured: ['Client Corp', 'Technology Partners LLC'],
         description: 'IT consulting and managed services provider specializing in cloud infrastructure and cybersecurity solutions.'
-    },
-    'green-landscaping': {
-        name: 'Green Landscaping Co',
-        type: 'Certificate of Insurance',
-        issueDate: 'March 20, 2024',
-        expiryDate: 'March 20, 2025',
-        insurer: 'Farmers Business Insurance',
-        coverages: {
-            'General Liability': '$1,000,000 per occurrence / $2,000,000 aggregate',
-            'Commercial Auto': '$500,000 combined single limit',
-            'Workers Compensation': '$1,000,000 each accident',
-            'Equipment Coverage': '$250,000 replacement cost'
-        },
-        additionalInsured: ['Property Management Inc', 'HOA Services LLC'],
-        description: 'Full-service landscaping company providing design, installation, and maintenance services for commercial and residential properties.'
     }
 };
 
-// Updated search result data with better formatting
+// Updated search result data with better formatting (updated to reflect only 3 vendors)
 const searchResults = {
     'coverage-limits': {
         title: 'General Liability Coverage Analysis',
-        summary: 'All 4 vendors meet minimum requirements with average coverage of $1.75M per occurrence',
+        summary: 'All 3 vendors meet minimum requirements with average coverage of $2M per occurrence',
         sections: [
             {
                 title: '📊 Coverage Summary',
                 items: [
                     { label: 'ABC Construction LLC', value: '$2M per occurrence / $4M aggregate', status: 'excellent', note: 'Well positioned for construction risks' },
                     { label: 'Tech Solutions Inc', value: '$3M per occurrence / $6M aggregate', status: 'excellent', note: 'Strong coverage for IT services' },
-                    { label: 'XYZ Plumbing Services', value: '$1M per occurrence / $2M aggregate', status: 'adequate', note: 'Adequate for trade contractor' },
-                    { label: 'Green Landscaping Co', value: '$1M per occurrence / $2M aggregate', status: 'adequate', note: 'Standard for landscaping operations' }
+                    { label: 'XYZ Plumbing Services', value: '$1M per occurrence / $2M aggregate', status: 'adequate', note: 'Adequate for trade contractor' }
                 ]
             },
             {
                 title: '🎯 Key Insights',
                 bullets: [
-                    'Average coverage across portfolio: <strong>$1.75M per occurrence</strong>',
+                    'Average coverage across portfolio: <strong>$2M per occurrence</strong>',
                     'All vendors exceed minimum requirement of $1M',
                     'Tech Solutions maintains highest limits appropriate for their risk profile',
                     'Coverage aligns well with industry standards'
@@ -91,7 +75,7 @@ const searchResults = {
                 content: 'Consider requiring umbrella coverage for vendors with contracts exceeding $500K to provide additional protection above primary limits.'
             }
         ],
-        source: 'Analysis of 4 active certificates • Generated in 0.8 seconds'
+        source: 'Analysis of 3 active certificates • Generated in 0.8 seconds'
     },
     'expiring-certificates': {
         title: 'Certificate Expiration Analysis',
@@ -132,13 +116,12 @@ const searchResults = {
     },
     'workers-comp': {
         title: 'Workers Compensation Coverage Review',
-        summary: '3 of 4 vendors maintain WC coverage, 1 vendor below recommended minimums',
+        summary: '2 of 3 vendors maintain WC coverage, 1 vendor below recommended minimums',
         sections: [
             {
                 title: '🛡️ Coverage Details',
                 items: [
                     { label: 'ABC Construction LLC', value: '$1M each accident', status: 'excellent', note: 'Excellent for construction class codes' },
-                    { label: 'Green Landscaping Co', value: '$1M each accident', status: 'excellent', note: 'Appropriate for landscaping operations' },
                     { label: 'XYZ Plumbing Services', value: '$500K each accident', status: 'warning', note: 'Below recommended $1M minimum' },
                     { label: 'Tech Solutions Inc', value: 'No WC required', status: 'compliant', note: 'Professional services, independent contractors' }
                 ]
@@ -153,7 +136,7 @@ const searchResults = {
             },
             {
                 title: '✅ Compliance Status',
-                content: '75% compliant - 3 out of 4 applicable vendors maintain active workers compensation coverage'
+                content: '67% compliant - 2 out of 3 applicable vendors maintain active workers compensation coverage'
             },
             {
                 title: '🎯 Action Required',
@@ -171,8 +154,7 @@ const searchResults = {
                 items: [
                     { label: 'ABC Construction LLC', value: 'Property Owner LLC, General Contractor Inc', status: 'compliant' },
                     { label: 'XYZ Plumbing Services', value: 'Building Owner Corp, Property Management LLC', status: 'compliant' },
-                    { label: 'Tech Solutions Inc', value: 'Client Corp, Technology Partners LLC', status: 'compliant' },
-                    { label: 'Green Landscaping Co', value: 'Property Management Inc, HOA Services LLC', status: 'compliant' }
+                    { label: 'Tech Solutions Inc', value: 'Client Corp, Technology Partners LLC', status: 'compliant' }
                 ]
             },
             {
@@ -193,13 +175,12 @@ const searchResults = {
     },
     'coverage-gaps': {
         title: 'Coverage Gap and Exclusion Analysis',
-        summary: '3 potential coverage gaps identified, standard exclusions noted',
+        summary: '2 potential coverage gaps identified, standard exclusions noted',
         sections: [
             {
                 title: '⚠️ Coverage Gaps Identified',
                 items: [
                     { label: 'XYZ Plumbing Services', value: 'Workers Comp: $500K vs $1M recommended', status: 'warning', note: 'Below industry standard' },
-                    { label: 'Green Landscaping Co', value: 'Auto Liability: May be insufficient for fleet', status: 'warning', note: 'Fleet operations exposure' },
                     { label: 'Tech Solutions Inc', value: 'Cyber Liability: $2M may be low for IT scope', status: 'caution', note: 'Consider increasing limits' }
                 ]
             },
@@ -228,7 +209,7 @@ const searchResults = {
     },
     'umbrella-policies': {
         title: 'Umbrella and Excess Coverage Summary',
-        summary: 'Only 25% of vendors maintain umbrella coverage, creating potential exposure gaps',
+        summary: 'Only 33% of vendors maintain umbrella coverage, creating potential exposure gaps',
         sections: [
             {
                 title: '☂️ Active Umbrella Policies',
@@ -245,16 +226,15 @@ const searchResults = {
                 title: '❌ No Umbrella Coverage',
                 items: [
                     { label: 'Tech Solutions Inc', value: 'No umbrella policy identified', status: 'gap' },
-                    { label: 'XYZ Plumbing Services', value: 'No umbrella policy identified', status: 'gap' },
-                    { label: 'Green Landscaping Co', value: 'No umbrella policy identified', status: 'gap' }
+                    { label: 'XYZ Plumbing Services', value: 'No umbrella policy identified', status: 'gap' }
                 ]
             },
             {
                 title: '📊 Risk Exposure Analysis',
                 bullets: [
-                    'Current aggregate exposure: <strong>~$8M across all vendors</strong>',
+                    'Current aggregate exposure: <strong>~$6M across all vendors</strong>',
                     'Large loss scenarios (>$1M) could exhaust primary limits',
-                    'Only 25% of portfolio maintains umbrella coverage'
+                    'Only 33% of portfolio maintains umbrella coverage'
                 ]
             },
             {
