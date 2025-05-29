@@ -1,27 +1,6 @@
-// Add this to the TOP of both script.js files
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize theme from localStorage with consistent key
-    const savedTheme = localStorage.getItem('kavaro-theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-    }
-});
-
-// Update your existing toggleTheme function to use consistent key
-function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-    localStorage.setItem('kavaro-theme', theme); // Use same key everywhere
-}
-
-
 let isLoginMode = true;
+
 // Smooth scroll function
-function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    const theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-    localStorage.setItem('theme', theme);
-}
 function scrollToSection(elementId) {
    const element = document.getElementById(elementId);
    if (element) {
@@ -102,22 +81,9 @@ function handleEmailSubmit(event) {
     
     xhr.send(data);
 }
-// Initialize theme on page load
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
-    if (theme === 'light') {
-        document.body.classList.add('light-theme');
-    } else {
-        document.body.classList.remove('light-theme'); // Ensure dark mode is default
-    }
-}
+
 // Stakeholder Flow Interactivity
 document.addEventListener('DOMContentLoaded', function() {
-    // Existing code...
-    
     // Add stakeholder node interactions
     const stakeholderNodes = document.querySelectorAll('.stakeholder-node');
     
@@ -131,10 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
-   initTheme();
-   
    // Login form handler
    document.getElementById('loginForm').addEventListener('submit', function(event) {
        event.preventDefault();

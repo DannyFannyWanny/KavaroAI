@@ -1,4 +1,4 @@
-// Sample document data// Sample document data
+// Sample document data
 const documentData = {
     'abc-construction': {
         name: 'ABC Construction LLC',
@@ -299,7 +299,7 @@ function showDocumentPreview(docId) {
 
         <div class="data-section">
             <h4>📝 Business Description</h4>
-            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; line-height: 1.6;">
+            <div style="background: rgba(0, 0, 0, 0.05); border-radius: 8px; padding: 1rem; line-height: 1.6;">
                 ${doc.description}
             </div>
         </div>
