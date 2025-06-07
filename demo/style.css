@@ -317,15 +317,15 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     padding: 1.5rem;
-    cursor: pointer;
+    cursor: default !important;
     transition: all 0.3s ease;
     text-align: left;
 }
 
 .search-question:hover {
-    transform: translateY(-2px);
-    border-color: #30D158;
-    background: rgba(48, 209, 88, 0.1);
+    background: inherit !important;
+    border-color: inherit !important;
+    transform: none !important;
 }
 
 .question-text {
@@ -618,6 +618,13 @@ body {
     border-radius: 16px;
     padding: 1.5rem;
     transition: all 0.3s ease;
+    cursor: default !important;
+}
+
+.insight-card:hover {
+    background: inherit !important;
+    border-color: inherit !important;
+    transform: none !important;
 }
 
 .insight-card.risk {
@@ -859,4 +866,20 @@ body {
     .item-value {
         font-size: 13px;
     }
+}
+
+.stakeholder-node,
+.kavaro-hub,
+.compliance-center {
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.stakeholder-node:hover,
+.kavaro-hub:hover,
+.compliance-center:hover {
+    background: inherit !important;
+    border-color: inherit !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
