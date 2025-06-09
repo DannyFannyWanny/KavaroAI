@@ -697,7 +697,7 @@ body {
     border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     padding: 2rem;
-    transition: all 0.4s ease;
+    /* transition: all 0.4s ease; */
     position: relative;
     backdrop-filter: blur(10px);
     opacity: 0;
@@ -705,10 +705,10 @@ body {
     animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.stakeholder-node.active {
+/* .stakeholder-node.active {
     border-color: #007AFF;
     background: rgba(0, 122, 255, 0.1);
-}
+} */
 
 .node-icon {
     width: 60px;
@@ -778,7 +778,7 @@ body {
     backdrop-filter: blur(20px);
     border: 2px solid rgba(0, 122, 255, 0.3);
     box-shadow: 0 20px 40px rgba(0, 122, 255, 0.1);
-    transition: all 0.4s ease;
+    /* transition: all 0.4s ease; */
     z-index: 20;
 }
 
@@ -1281,7 +1281,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     padding: 2rem;
-    transition: all 0.4s ease;
+    /* transition: all 0.4s ease; */
 }
 
 
@@ -1291,7 +1291,7 @@ body {
     backdrop-filter: blur(20px);
     border: 2px solid rgba(0, 122, 255, 0.3);
     box-shadow: 0 20px 40px rgba(0, 122, 255, 0.1);
-    transition: all 0.4s ease;
+    /* transition: all 0.4s ease; */
 }
 
 
