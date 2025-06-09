@@ -151,3 +151,139 @@ document.addEventListener('DOMContentLoaded', function() {
        }
    });
 });
+
+// Stakeholder Details Modal Functions
+function showStakeholderDetails(stakeholderType) {
+    const modal = document.getElementById('stakeholderModal');
+    const icon = document.getElementById('stakeholderIcon');
+    const title = document.getElementById('stakeholderTitle');
+    const subtitle = document.getElementById('stakeholderSubtitle');
+    const content = document.getElementById('stakeholderContent');
+    
+    // Stakeholder data
+    const stakeholderData = {
+        underwriters: {
+            icon: '📊',
+            iconClass: 'underwriter',
+            title: 'Underwriters',
+            subtitle: 'Risk evaluation & pricing',
+            content: `
+                <strong>Key Documents:</strong>
+                Exposure schedules, applications, loss runs, COIs, risk narratives, claims history
+                <br><br>
+                <strong>Lifecycle:</strong>
+                Submission review → Risk analysis → Policy pricing & binding
+            `
+        },
+        compliance: {
+            icon: '⚖️',
+            iconClass: 'compliance',
+            title: 'Compliance / Legal / EHS',
+            subtitle: 'Risk accountability & defense',
+            content: `
+                <strong>Key Documents:</strong>
+                Risk registers, incident reports, OSHA docs, contract language, audit logs
+                <br><br>
+                <strong>Lifecycle:</strong>
+                Policy review → Risk mitigation → Audit prep → Legal response & claims analysis
+            `
+        },
+        brokers: {
+            icon: '🤝',
+            iconClass: 'broker',
+            title: 'Insurance Brokers',
+            subtitle: 'Submissions & client support',
+            content: `
+                <strong>Key Documents:</strong>
+                Client intake forms, COIs, policy binders, endorsements, renewal packets
+                <br><br>
+                <strong>Lifecycle:</strong>
+                Client onboarding → Submission packaging → Renewals & retention
+            `
+        },
+        clients: {
+            icon: '🏢',
+            iconClass: 'client',
+            title: 'Clients / Insureds',
+            subtitle: 'Risk, Ops, HR, Legal teams',
+            content: `
+                <strong>Key Documents:</strong>
+                Insurance policies, contracts, COIs, premium invoices, claims, safety reports
+                <br><br>
+                <strong>Lifecycle:</strong>
+                Policy intake → Document management → Expiration tracking → Claims support
+            `
+        },
+        vendors: {
+            icon: '👷',
+            iconClass: 'vendor',
+            title: 'Vendors / Subcontractors',
+            subtitle: 'Proving compliance to clients',
+            content: `
+                <strong>Key Documents:</strong>
+                COIs, additional insured endorsements, contracts, safety plans, certifications
+                <br><br>
+                <strong>Lifecycle:</strong>
+                Vendor onboarding → Document upload → Renewal submissions → Compliance tracking
+            `
+        },
+        kavaro: {
+            icon: '🧠',
+            iconClass: 'kavaro-hub',
+            title: 'Kavaro AI',
+            subtitle: 'The Risk Management Bridge',
+            content: `
+                <strong>Core Features:</strong>
+                • AI Document Intelligence<br>
+                • Secure Storage & Audit Trail<br>
+                • Real-time Collaboration<br>
+                • Automated Compliance<br>
+                • Predictive Risk Analytics
+                <br><br>
+                <strong>How It Works:</strong>
+                Kavaro AI connects every stakeholder, every document, and every risk obligation across the full insurance lifecycle, transforming unstructured data into actionable intelligence.
+            `
+        }
+    };
+    
+    const data = stakeholderData[stakeholderType];
+    if (data) {
+        // Set icon
+        icon.textContent = data.icon;
+        icon.className = `stakeholder-modal-icon ${data.iconClass}`;
+        
+        // Set content
+        title.textContent = data.title;
+        subtitle.textContent = data.subtitle;
+        content.innerHTML = data.content;
+        
+        // Show modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeStakeholderModal() {
+    const modal = document.getElementById('stakeholderModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close stakeholder modal on escape key or outside click
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('stakeholderModal');
+    
+    // Close on outside click
+    modal.addEventListener('click', function(event) {
+        if (event.target === this) {
+            closeStakeholderModal();
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.classList.contains('active')) {
+            closeStakeholderModal();
+        }
+    });
+});

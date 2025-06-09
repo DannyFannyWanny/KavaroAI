@@ -179,7 +179,7 @@
 
             <div class="flow-diagram">
                 <!-- Underwriters -->
-                <div class="stakeholder-node" data-stakeholder="underwriters">
+                <div class="stakeholder-node" data-stakeholder="underwriters" onclick="showStakeholderDetails('underwriters')">
                     <div class="node-icon underwriter">📊</div>
                     <div class="node-title">Underwriters</div>
                     <div class="node-subtitle">Risk evaluation & pricing</div>
@@ -193,7 +193,7 @@
                 </div>
 
                 <!-- Kavaro AI Hub (Center) -->
-                <div class="stakeholder-node kavaro-hub">
+                <div class="stakeholder-node kavaro-hub" onclick="showStakeholderDetails('kavaro')">
                     <div class="hub-icon">🧠</div>
                     <div class="hub-title">Kavaro AI</div>
                     <div class="hub-subtitle">The Risk Management Bridge</div>
@@ -207,7 +207,7 @@
                 </div>
 
                 <!-- Compliance/Legal/EHS (Center Below Hub) -->
-                <div class="stakeholder-node compliance-center" data-stakeholder="compliance">
+                <div class="stakeholder-node compliance-center" data-stakeholder="compliance" onclick="showStakeholderDetails('compliance')">
                     <div class="node-icon compliance">⚖️</div>
                     <div class="node-title">Compliance / Legal / EHS</div>
                     <div class="node-subtitle">Risk accountability & defense</div>
@@ -221,7 +221,7 @@
                 </div>
 
                 <!-- Insurance Brokers -->
-                <div class="stakeholder-node" data-stakeholder="brokers">
+                <div class="stakeholder-node" data-stakeholder="brokers" onclick="showStakeholderDetails('brokers')">
                     <div class="node-icon broker">🤝</div>
                     <div class="node-title">Insurance Brokers</div>
                     <div class="node-subtitle">Submissions & client support</div>
@@ -235,7 +235,7 @@
                 </div>
 
                 <!-- Clients/Insureds -->
-                <div class="stakeholder-node" data-stakeholder="clients">
+                <div class="stakeholder-node" data-stakeholder="clients" onclick="showStakeholderDetails('clients')">
                     <div class="node-icon client">🏢</div>
                     <div class="node-title">Clients / Insureds</div>
                     <div class="node-subtitle">Risk, Ops, HR, Legal teams</div>
@@ -249,7 +249,7 @@
                 </div>
 
                 <!-- Vendors/Subcontractors -->
-                <div class="stakeholder-node" data-stakeholder="vendors">
+                <div class="stakeholder-node" data-stakeholder="vendors" onclick="showStakeholderDetails('vendors')">
                     <div class="node-icon vendor">👷</div>
                     <div class="node-title">Vendors / Subcontractors</div>
                     <div class="node-subtitle">Proving compliance to clients</div>
@@ -373,6 +373,21 @@
                     Don't have an account? Sign up
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Stakeholder Details Modal -->
+    <div class="stakeholder-modal-overlay" id="stakeholderModal">
+        <div class="stakeholder-modal">
+            <button class="stakeholder-modal-close" onclick="closeStakeholderModal()">&times;</button>
+            <div class="stakeholder-modal-header">
+                <div class="stakeholder-modal-icon" id="stakeholderIcon"></div>
+                <div>
+                    <div class="stakeholder-modal-title" id="stakeholderTitle"></div>
+                    <div class="stakeholder-modal-subtitle" id="stakeholderSubtitle"></div>
+                </div>
+            </div>
+            <div class="stakeholder-modal-content" id="stakeholderContent"></div>
         </div>
     </div>
 
