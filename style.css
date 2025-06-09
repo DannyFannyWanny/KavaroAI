@@ -1212,15 +1212,48 @@ body {
     }
     
     .flow-diagram {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        min-height: auto;
+        grid-template-columns: unset;
+        grid-template-rows: unset;
     }
     
     .kavaro-hub {
-        grid-column: 1;
+        grid-column: unset;
+        grid-row: unset;
+        order: 1;
     }
     
     .stakeholder-node {
         padding: 1.5rem;
+    }
+    
+    .stakeholder-node[data-stakeholder="underwriters"] {
+        order: 2;
+    }
+    
+    .stakeholder-node[data-stakeholder="brokers"] {
+        order: 3;
+    }
+    
+    .stakeholder-node[data-stakeholder="clients"] {
+        order: 4;
+    }
+    
+    .stakeholder-node[data-stakeholder="vendors"] {
+        order: 5;
+    }
+    
+    .stakeholder-node[data-stakeholder="compliance"] {
+        order: 6;
+    }
+    
+    .compliance-center {
+        grid-column: unset;
+        grid-row: unset;
+        margin-top: 0;
     }
     
     .phases-grid {
