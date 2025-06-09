@@ -34,6 +34,13 @@
                     Contact
                 </button>
                 
+                <!-- Mobile menu button -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
                 <!--button class="btn btn-launch" onclick="openModal()">
                     Sign In
                 </button-->
@@ -42,6 +49,26 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <div class="mobile-logo">Kavaro AI</div>
+                <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                    <span class="close-line"></span>
+                    <span class="close-line"></span>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a onclick="scrollToSection('challenge'); toggleMobileMenu()">Problem</a>
+                <a onclick="scrollToSection('solution'); toggleMobileMenu()">Solution</a>
+                <a onclick="scrollToSection('ecosystem'); toggleMobileMenu()">Ecosystem</a>
+                <a onclick="scrollToSection('cta'); toggleMobileMenu()">Contact</a>
+                <a onclick="window.location.href='demo/index.html'" class="mobile-demo-btn">Try Demo</a>
+            </nav>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="hero" class="hero">

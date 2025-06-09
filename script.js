@@ -1,5 +1,21 @@
 let isLoginMode = true;
 
+// Mobile menu toggle function
+function toggleMobileMenu() {
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const button = document.querySelector('.mobile-menu-btn');
+    
+    if (overlay.classList.contains('active')) {
+        overlay.classList.remove('active');
+        button.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    } else {
+        overlay.classList.add('active');
+        button.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
 // Smooth scroll function
 function scrollToSection(elementId) {
    const element = document.getElementById(elementId);
@@ -118,6 +134,20 @@ document.addEventListener('DOMContentLoaded', function() {
    document.getElementById('loginModal').addEventListener('click', function(event) {
        if (event.target === this) {
            closeModal();
+       }
+   });
+   
+   // Close mobile menu when clicking outside
+   document.getElementById('mobileMenuOverlay').addEventListener('click', function(event) {
+       if (event.target === this) {
+           toggleMobileMenu();
+       }
+   });
+   
+   // Close mobile menu on escape key
+   document.addEventListener('keydown', function(event) {
+       if (event.key === 'Escape' && document.getElementById('mobileMenuOverlay').classList.contains('active')) {
+           toggleMobileMenu();
        }
    });
 });
