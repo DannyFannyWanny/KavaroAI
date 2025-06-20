@@ -295,13 +295,14 @@
             </div-->
         </div>
     </section>
+    
 
     <!-- CTA Section -->
     <section id="cta" class="section">
         <div class="container">
             <div class="cta-section">
                 <h2>Ready To Transform Your Risk?</h2>
-                <p>Submit your email for a live demo of our product</p>
+                <p>Join the waitlist or book a live demo below to learn more</p>
                 
              <form class="cta-form" onsubmit="handleEmailSubmit(event)">
     <input 
@@ -311,15 +312,19 @@
         required
         id="email-input"
     />
-    <button type="submit" class="cta-submit" id="submit-btn">Contact Us</button>
+    <button type="submit" class="cta-submit" id="submit-btn">Join Waitlist</button>
+    
 </form>
-                
+              <!-- Calendly inline widget begin -->
+<div class="calendly-inline-widget" data-url="https://calendly.com/daniel-morales-kavaroai/kavaro-product-demo?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly inline widget end -->  
                 <!--div style="margin-top: 1.5rem; font-size: 14px; opacity: 0.8;">
                     ✓ No credit card required &nbsp;&nbsp; ✓ 14-day free trial &nbsp;&nbsp; ✓ Setup in 5 minutes
                 </div-->
                 
                 <!-- Alternative CTA -->
-                <div style="margin-top: 2rem; text-align: center;">
+                <!--div style="margin-top: 2rem; text-align: center;">
                     <p style="opacity: 0.8; margin-bottom: 1rem;">Want to see it first?</p>
                     <button class="btn btn-secondary" onclick="window.location.href='demo/index.html'">
                         Try the Interactive Demo
